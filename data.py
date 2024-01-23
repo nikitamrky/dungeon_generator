@@ -6,7 +6,7 @@ FOUNDATION_BUILDERS = (
     "natural (caves, etc.)",
     "natural (caves, etc.)",
     "religious order/cult",
-    "some humanoid race (p. 49)", # TODO: add humanoid random choice
+    "some humanoid race (p. 49)",  # TODO: add humanoid random choice
     "some humanoid race (p. 49)",
     "dwarves/gnomes",
     "dwarves/gnomes",
@@ -58,7 +58,7 @@ THEMES_MUNDANE = (
 )
 THEMES_UNUSUAL = (
     "creation/invention",
-    "Element (p. 50)", # TODO: make generation of elements
+    "Element (p. 50)",  # TODO: make generation of elements
     "knowledge/learning",
     "growth/expansion",
     "deepening mystery",
@@ -84,5 +84,46 @@ THEMES_EXTRAORDINARY = (
     "unspeakable horrors",
     "holy war",
 )
-DISCOVERIES = ()
+DISCOVERIES_DRESSING = (
+    "junk/debris",
+    "tracks/marks",
+    "signs of battle",
+    "writing/carving",
+    "warning",
+    "dead Creature (p49)",  # TODO: generate creatures
+    "bones/remains",
+    "book/scroll/map",
+    "broken door/wall",
+    "breeze/wind/smell",
+    "lichen/moss/fungus",
+    "Oddity (p50)"  # TODO: generate oddities
+)
+DISCOVERIES_FEATURE = (
+    "cave-in/collapse",
+    "pit/shaft/chasm",
+    "pillars/columns",
+    "locked door/gate",
+    "alcoves/niches",
+    "bridge/stairs/ramp",
+    "fountain/well/pool",
+    "puzzle",
+    "altar/dais/platform",
+    "statue/idol",
+    "magic pool/statue/idol",
+    "connection to another dungeon"
+)
+DISCOVERIES_FIND = (
+    "trinkets",
+    "tools",
+    "weapons/armor",
+    "supplies/trade goods",
+    "coins/gems/jewelry",
+    "poisons/potions",
+    "adventurer/captive",
+    "magic item",
+    "scroll/book",
+    "magic weapon/armor",
+    "artifact",
+    "roll twice"  # TODO: roll twice and combine answers
+)
 DANGERS = ()

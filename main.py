@@ -39,6 +39,19 @@ def main():
     # Print result
     print(s)
 
+    # Ask if user confirms dungeon meta data
+    while True:
+        proceed = input("Do you want to proceed with this dungeon? [y/n]: ")
+        if "n" in proceed.lower():
+            quit(1)
+        elif not "y" in proceed.lower():
+            pass
+        else:
+            break
+
+    # Generate new random area
+    pass
+
 
 if __name__ == "__main__":
     main()
