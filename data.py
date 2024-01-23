@@ -6,8 +6,8 @@ FOUNDATION_BUILDERS = (
     "natural (caves, etc.)",
     "natural (caves, etc.)",
     "religious order/cult",
-    "some humanoid race", # TODO: add humanoid random choice
-    "some humanoid race",
+    "some humanoid race (p. 49)", # TODO: add humanoid random choice
+    "some humanoid race (p. 49)",
     "dwarves/gnomes",
     "dwarves/gnomes",
     "elves",
@@ -42,21 +42,47 @@ RUINATIONS = (
     "depleted resources",
     "better prospects elsewhere"
 )
-THEMES_MUNDANE = ( #TODO
+THEMES_MUNDANE = (
     "rot/decay",
     "torture/agony",
     "madness",
     "all is lost",
     "noble sacrifice",
     "savage fury",
+    "survival",
+    "criminal activity",
+    "secrets/treachery",
+    "tricks and traps",
+    "invasion/infestasion",
+    "factions at war"
 )
-THEMES_UNUSUAL = ( #TODO
-    "TODO",
-    "TODO",
+THEMES_UNUSUAL = (
+    "creation/invention",
+    "Element (p. 50)", # TODO: make generation of elements
+    "knowledge/learning",
+    "growth/expansion",
+    "deepening mystery",
+    "transformation/change",
+    "chaos and destruction",
+    "shadowy forces",
+    "forbidden knowledge",
+    "poison/disease",
+    "corruption/blight",
+    "impending disaster",
 )
-THEMES_EXTRAORDINARY = ( #TODO
-    "TODO",
-    "TODO",
+THEMES_EXTRAORDINARY = (
+    "scheming evil",
+    "divination/scrying",
+    "blasphemy",
+    "arcane research",
+    "occult forces",
+    "an ancient curse",
+    "mutation",
+    "the unquiet dead",
+    "bottomless hunger",
+    "incredible power",
+    "unspeakable horrors",
+    "holy war",
 )
 DISCOVERIES = ()
 DANGERS = ()

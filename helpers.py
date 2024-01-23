@@ -4,7 +4,7 @@ import random
 
 
 def get_themes_number(size: str) -> int:
-    """Generate number of themes"""
+    """Generate number of themes as well as theme countdowns"""
 
     # Return 1d4 dice result if dungeon size is small
     if size.lower() == "small":
@@ -17,6 +17,12 @@ def get_themes_number(size: str) -> int:
 
     # Calculate and return result (1d6 + k)
     return random.randint(1,6) + k
+
+
+def roll_d6(n=1) -> int:
+    """Roll 1d6 n times and add results"""
+    result = sum(random.randint(1,6) for _ in range(n))
+    return result
 
 
 def roll_d12() -> int:
@@ -42,10 +48,10 @@ def get_theme() -> str:
         return random.choice(data.THEMES_EXTRAORDINARY)
 
 
-def get_areas_number(size: str) -> int:
-    """Generate number of areas for every theme"""
+def get_area_limit_number(size: str) -> int:
+    """Generate area limit for dungeon"""
 
-    # Define coeffitient for 1d6 dice (a) and constant term (k)
+    # Define coefficient for 1d6 dice (a) and constant term (k)
     if size.lower() == "small":
         a = 1
         k = 2
@@ -59,4 +65,6 @@ def get_areas_number(size: str) -> int:
         a = 4
         k = 10
 
-    # Calculate the number of themes
+    # Calculate and return the number of areas
+    n = roll_d6(a) + k
+    return n

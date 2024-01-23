@@ -1,5 +1,5 @@
 import data
-from helpers import get_themes_number, get_theme
+from helpers import get_themes_number, get_theme, get_area_limit_number
 
 import random
 
@@ -8,6 +8,7 @@ def main():
 
     # Define all dungeon meta data variables except themes
     size = random.choice(data.SIZES)
+    area_limit = get_area_limit_number(size)
     builder = random.choice(data.FOUNDATION_BUILDERS)
     function = random.choice(data.FOUNDATION_FUNCTIONS)
     ruination = random.choice(data.RUINATIONS)
@@ -18,16 +19,18 @@ def main():
     # Generate themes
     themes = []
     for i in range (themes_number):
-        themes.append(get_theme())
+        countdown = get_themes_number(size)
+        themes.append(get_theme() + ": %s" % countdown)
 
     # Construct response string
     s = ("Dungeon #1:\n" \
         "Size: %s\n" \
+        "Area limit: %i\n" \
         "Builded by %s\n" \
         "Function: %s\n" \
         "Ruined by: %s\n" \
-        "Themes:" \
-         % (size, builder, function, ruination))
+        "Themes & countdowns:" \
+         % (size, area_limit, builder, function, ruination))
 
     # Append string with themes
     for theme in themes:
