@@ -1,3 +1,5 @@
+# Dungeon meta
+
 SIZES = ("small", "medium", "large", "huge")
 
 FOUNDATION_BUILDERS = (
@@ -84,6 +86,9 @@ THEMES_EXTRAORDINARY = (
     "unspeakable horrors",
     "holy war",
 )
+
+# Discoveries and dangers
+
 DISCOVERIES_DRESSING = (
     "junk/debris",
     "tracks/marks",
@@ -124,6 +129,59 @@ DISCOVERIES_FIND = (
     "scroll/book",
     "magic weapon/armor",
     "artifact",
-    "roll twice"  # TODO: roll twice and combine answers
+    "roll twice"  # TODO: roll twice except this result and combine answers
 )
-DANGERS = ()
+DANGERS_TRAP = (
+    "alarm",
+    "ensnaring/paralyzing",
+    "pit",
+    "crushing",
+    "piercing/puncturing",
+    "chopping/slashing",
+    "confusing (maze, etc.)",
+    "gas (poison, etc.)",
+    "Element (p50)"  # TODO: roll for element
+    "ambush",
+    "magical",
+    "roll twice"  # TODO: roll twice except this result
+)
+DANGERS_CREATURE = (  # TODO: roll for all params of creature
+    "waiting in ambush",
+    "fighting/squabbling",
+    "prowling/on patrol",
+    "looking for food",
+    "eating/resting",
+    "guarding",
+    "on the move",
+    "searching/scavenging",
+    "returning to den",
+    "making plans",
+    "sleeping",
+    "dying"
+)
+DANGERS_ENTITY = (
+    "alien interloper",
+    "vermin lord",
+    "criminal mastermind",
+    "warlord",
+    "high priest",
+    "oracle",
+    "wizard/witch/alchemist",
+    "Monster lord (p49)",  # TODO: monster lord
+    "evil spirit/ghost",
+    "undead lord (lich, etc.)",
+    "demon",
+    "dark god"
+)
+
+# Creatures (in addition to DANGERS_CREATURE)
+
+BEAST_EARTHBOUND = (
+    "termite/tick/louse"
+)
+BEAST_AIRBORNE = (
+    "mosquito/firefly"
+)
+BEAST_WATERGOING = (
+    "insect"
+)
