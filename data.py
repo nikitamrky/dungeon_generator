@@ -95,6 +95,8 @@ AREA_CONTENT = (
     ("unthemed", "common", False, False),
     ("unthemed", "common", False, True),
     ("unthemed", "common", True, True),
+    ("unthemed", "common", True, True),
+    ("unthemed", "common", True, False),
     ("unthemed", "common", True, False),
     ("themed", "common", False, True),  # TODO: choose theme randomly with countdowns
     ("themed", "common", True, True),
