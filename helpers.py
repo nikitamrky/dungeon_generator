@@ -30,24 +30,6 @@ def roll_d12() -> int:
     return random.randint(1,12)
 
 
-def get_theme() -> str:
-    """Generate random theme"""
-
-    r = roll_d12()
-
-    # Return mundane theme if r from 1 to 5
-    if r <= 5:
-        return random.choice(data.THEMES_MUNDANE)
-
-    # Return unusual theme if r from 6 to 9
-    elif r <= 9:
-        return random.choice(data.THEMES_UNUSUAL)
-
-    # Return extraordinary theme if r from 10 to 12
-    else:
-        return random.choice(data.THEMES_EXTRAORDINARY)
-
-
 def get_area_limit_number(size: str) -> int:
     """Generate area limit for dungeon"""
 

@@ -1,5 +1,7 @@
 import data
-from helpers import get_themes_number, get_theme, get_area_limit_number
+from helpers import get_themes_number, get_area_limit_number
+from themes_generator import generate_themes
+from areas_generator import generate_area
 
 import random
 
@@ -16,24 +18,21 @@ def main():
     themes_number = get_themes_number(size)
 
     # Generate themes
-    themes = []
-    for i in range(themes_number):
-        countdown = get_themes_number(size)
-        themes.append(get_theme() + ": %s" % countdown)
+    themes = generate_themes(themes_number, size)
 
     # Construct response string
-    s = ("Dungeon #1:\n" \
-         "Size: %s\n" \
-         "Area limit: %i\n" \
-         "Built by %s\n" \
-         "Function: %s\n" \
-         "Ruined by: %s\n" \
-         "Themes & countdowns:" \
+    s = ("Dungeon #1:\n" 
+         "Size: %s\n" 
+         "Area limit: %i\n" 
+         "Built by %s\n" 
+         "Function: %s\n" 
+         "Ruined by: %s\n" 
+         "Themes & countdowns:"
          % (size, area_limit, builder, function, ruination))
 
     # Append string with themes
     for theme in themes:
-        s = '\n'.join([s, "- %s" % theme])
+        s = '\n'.join([s, f"- {theme.name}: {theme.countdown}"])
 
     # Print result
     print(s)
@@ -49,13 +48,15 @@ def main():
             break
 
     # Reminder to compose unique areas list
-    print("Write down %i unique areas aligning with dungeon themes. \n"
-          "Roll or choose one of them every time you need to present a unique area.\n"
-          % (int(area_limit / 2)))
-
-    # TODO: offer some options to exclude (e.g. water-going creatures) via button menu
+    unique_areas_num = int(area_limit / 2)
+    common_areas_num = int((area_limit - unique_areas_num) / 2.5) + 2  # Improvised formula
+    print("Write down %i+ common areas and %i unique areas aligning with dungeon themes. \n"
+          "Roll or choose one of them every time you need to present new area.\n"
+          % (common_areas_num, unique_areas_num))
 
     # Generate new random area
+    new_area = generate_area(themes)
+    print(new_area)
 
 
 if __name__ == "__main__":

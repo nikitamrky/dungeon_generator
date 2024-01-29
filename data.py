@@ -87,8 +87,22 @@ THEMES_EXTRAORDINARY = (
     "holy war",
 )
 
-# Discoveries and dangers
+# Area content, discoveries and dangers
 
+# Content in tuples:
+# themed/unthemed, common/unique, # of discoveries, # of dangers
+AREA_CONTENT = (
+    ("unthemed", "common", False, False),
+    ("unthemed", "common", False, True),
+    ("unthemed", "common", True, True),
+    ("unthemed", "common", True, False),
+    ("themed", "common", False, True),  # TODO: choose theme randomly with countdowns
+    ("themed", "common", True, True),
+    ("themed", "common", True, False),
+    ("themed", "unique", False, True),
+    ("themed", "unique", True, True),
+    ("themed", "unique", True, False),
+)
 DISCOVERIES_DRESSING = (
     "junk/debris",
     "tracks/marks",
@@ -177,11 +191,128 @@ DANGERS_ENTITY = (
 # Creatures (in addition to DANGERS_CREATURE)
 
 BEAST_EARTHBOUND = (
-    "termite/tick/louse"
+    "termite/tick/louse",
+    "snail/slug/worm",
+    "ant/centipede/scorpion",
+    "snake/lizard",
+    "vole/rat/wease",
+    "boar/pig",
+    "dog/fox/wolf",
+    "cat/lion/panther",
+    "deer/horse/camel",
+    "ox/rhino",
+    "bear/ape/gorilla",
+    "mammoth/dinosaur"
 )
 BEAST_AIRBORNE = (
-    "mosquito/firefly"
+    "mosquito/firefly",
+    "locust/dragonfly/moth",
+    "bee/wasp",
+    "chicken/duck/goose",
+    "songbird/parrot",
+    "gull/waterbird",
+    "heron/crane/stork",
+    "crow/raven",
+    "hawk/falcon",
+    "eagle/owl",
+    "condor",
+    "pteranodon"
 )
 BEAST_WATERGOING = (
-    "insect"
+    "insect",
+    "jelly/anemone",
+    "clam/oyster/snail",
+    "eel/snake",
+    "frog/toad",
+    "fish",
+    "crab/lobster",
+    "turtle",
+    "alligator/crocodile",
+    "dolphin/shark",
+    "squid/octopus",
+    "whale"
+)
+HUMANOID_COMMON = (
+    "halfling",
+    "halfling",
+    "halfling",
+    "goblin/kobold",
+    "goblin/kobold",
+    "dwarf/gnome",
+    "dwarf/gnome",
+    "orc/hobgoblin/gnoll",
+    "orc/hobgoblin/gnoll",
+    "half-elf/half-orc, etc.",
+    "half-elf/half-orc, etc.",
+    "elf"
+)
+HUMANOID_UNCOMMON = (
+    "fey (tiny)",
+    "catfolk/dogfolk",
+    "catfolk/dogfolk",
+    "lizardfolk/merfolk",
+    "lizardfolk/merfolk",
+    "lizardfolk/merfolk",
+    "birdfolk",
+    "ogre/troll",
+    "ogre/troll",
+    "ogre/troll",
+    "cyclopes/giant",
+    "cyclopes/giant"
+)
+HUMANOID_HYBRID = (
+    "centaur",
+    "centaur",
+    "werewolf/werebear",
+    "werewolf/werebear",
+    "werewolf/werebear",
+    "werecreature (human + beast)",  # TODO: make human + beast werecreature
+    "human + beast",  # TODO: make human-beast hybrids
+    "human + beast",
+    "human + beast",
+    "human + beast",
+    "human + 2 beasts",
+    "human + 2 beasts"
+)
+MONSTER_UNUSUAL = (
+    "plant/fungus",
+    "plant/fungus",
+    "plant/fungus",
+    "Undead Human",
+    "Undead Human",
+    "Undead Humanoid",  # TODO: random humanoid choice
+    "beast + beast",  # TODO: beast + beast creature
+    "beast + beast",
+    "beast + ability",  # TODO: beast + ability
+    "beast + ability",
+    "beast + feature",  # TODO: beast + feature
+    "beast + feature",
+)
+MONSTER_RARE = (
+    "slime/ooze (Amorphous)",
+    "slime/ooze (Amorphous)",
+    "slime/ooze (Amorphous)",
+    "creation (Construct)",
+    "creation (Construct)",
+    "creation (Construct)",
+    "beast + oddity",  # TODO: beast + oddity
+    "beast + oddity",
+    "beast + oddity",
+    "Unnatural Entity",
+    "Unnatural Entity",
+    "Unnatural Entity"
+)
+MONSTER_LEGENDARY = (
+    "dragon/colossus (Huge)",
+    "dragon/colossus (Huge)",
+    "dragon/colossus (Huge)",
+    "Unusual + Huge",  # TODO: unusual + huge
+    "Unusual + Huge",
+    "Unusual + Huge",
+    "Rare + Huge",  # TODO: rare + huge
+    "Rare + Huge",
+    "Rare + Huge",
+    "Beast + dragon",  # TODO: beast + dragon
+    "Unusual + dragon",  # TODO: unusual + dragon
+    "Rare + dragon"  # # TODO: rare + dragon
 )
