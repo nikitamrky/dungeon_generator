@@ -25,7 +25,7 @@ def main():
     s = ("Dungeon #1:\n" \
          "Size: %s\n" \
          "Area limit: %i\n" \
-         "Builded by %s\n" \
+         "Built by %s\n" \
          "Function: %s\n" \
          "Ruined by: %s\n" \
          "Themes & countdowns:" \
