@@ -49,14 +49,37 @@ def main():
 
     # Reminder to compose unique areas list
     unique_areas_num = int(area_limit / 2)
-    common_areas_num = int((area_limit - unique_areas_num) / 2.5) + 2  # Improvised formula
+    common_areas_num = int((area_limit - unique_areas_num - 1) / 2.5) + 1  # Improvised formula
     print("Write down %i+ common areas and %i unique areas aligning with dungeon themes. \n"
-          "Roll or choose one of them every time you need to present new area.\n"
+          "Roll or choose one of them every time you need to present a new area.\n"
           % (common_areas_num, unique_areas_num))
 
     # Generate new random area
     new_area = generate_area(themes)
-    print(new_area)
+
+    # Compose discoveries string
+    if not new_area[2]:
+        # No discoveries
+        discoveries_str = " -"
+    else:
+        # Compose list of discoveries
+        discoveries_str = ""
+        for discovery in new_area[2]:
+            discoveries_str = "\n- ".join([discoveries_str, discovery])
+
+    # TODO: Compose dangers string
+    dangers_str = new_area[3]
+
+    # Provide area description
+    print(
+        "Type: %s\n"
+        "Theme: %s\n"
+        "Discoveries:"
+        "%s\n"
+        "Dangers:"
+        "%s"
+        % (new_area[1], new_area[0], discoveries_str, dangers_str)
+    )
 
 
 if __name__ == "__main__":
