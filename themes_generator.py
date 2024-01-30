@@ -39,7 +39,10 @@ def get_theme() -> str:
 def generate_themes(number, size) -> list:
     themes = []
     for i in range(number):
-        theme_name = get_theme()
+        while True:  # Check if themes do not repeat
+            theme_name = get_theme()
+            if theme_name not in themes:
+                break
         theme_countdown = get_themes_number(size)
         themes.append(Theme(theme_name, theme_countdown))
     return themes
