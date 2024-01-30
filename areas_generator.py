@@ -24,7 +24,19 @@ def get_discoveries() -> list:
 
 
 def get_dangers() -> list:  # TODO
-    dangers = ["oooaaa danger!"]
+    dangers = []
+    r = roll_d12()
+    if r <= 4:
+        temp = random.choice(data.DANGERS_TRAP)
+        if not temp == "roll twice":
+            dangers.append("trap: " + temp)
+        else:
+            for i in range(2):
+                dangers.append("trap: " + data.DANGERS_TRAP[random.randint(0, 10)])
+    elif r <= 11:
+        dangers.append("creature")
+    else:
+        dangers.append(random.choice(data.DANGERS_ENTITY))
     return dangers
 
 

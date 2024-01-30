@@ -68,7 +68,14 @@ def main():
             discoveries_str = "\n- ".join([discoveries_str, discovery])
 
     # TODO: Compose dangers string
-    dangers_str = new_area[3]
+    if not new_area[3]:
+        # No dangers
+        dangers_str = " -"
+    else:
+        # Compose list of dangers
+        dangers_str = ""
+        for danger in new_area[3]:
+            dangers_str = "\n- ".join([dangers_str, danger])
 
     # Provide area description
     print(
