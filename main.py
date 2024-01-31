@@ -67,7 +67,6 @@ def main():
         for discovery in new_area[2]:
             discoveries_str = "\n- ".join([discoveries_str, discovery])
 
-    # TODO: Compose dangers string
     if not new_area[3]:
         # No dangers
         dangers_str = " -"
