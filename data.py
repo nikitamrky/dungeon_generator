@@ -318,3 +318,41 @@ MONSTER_LEGENDARY = (
     "Unusual + dragon",  # TODO: unusual + dragon
     "Rare + dragon"  # # TODO: rare + dragon
 )
+ACTIVITY = (
+    "waiting in ambush",
+    "fighting/squabbling",
+    "prowling/on patrol",
+    "looking for food",
+    "eating/resting",
+    "guarding",
+    "on the move",
+    "searching/scavenging",
+    "returning to den",
+    "making plans",
+    "sleeping",
+    "dying"
+)
+ALIGNMENT = (  # Changed chances
+    "chaotic",
+    "chaotic",
+    "evil",
+    "evil",
+    "neutral",
+    "neutral",
+    "neutral",
+    "good",
+    "lawful"
+)
+DISPOSITION = (
+    "attacking",
+    "hostile/aggressive",
+    "hostile/aggressive",
+    "cautious/doubtful",
+    "cautious/doubtful",
+    "fearful/fleeing",
+    "neutral",
+    "neutral",
+    "curious/hopeful",
+    "friendly"
+)
+
