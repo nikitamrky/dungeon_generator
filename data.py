@@ -111,13 +111,13 @@ DISCOVERIES_DRESSING = (
     "signs of battle",
     "writing/carving",
     "warning",
-    "dead Creature (p49)",  # TODO: generate creatures
+    "dead Creature (p49)",  # TODO: generate dead creatures with simple algorithm
     "bones/remains",
     "book/scroll/map",
     "broken door/wall",
     "breeze/wind/smell",
     "lichen/moss/fungus",
-    "Oddity (p50)"  # TODO: generate oddities
+    #"Oddity (p50)"  # Removed
 )
 DISCOVERIES_FEATURE = (
     "cave-in/collapse",
@@ -131,7 +131,7 @@ DISCOVERIES_FEATURE = (
     "altar/dais/platform",
     "statue/idol",
     "magic pool/statue/idol",
-    "connection to another dungeon"
+    # "connection to another dungeon"  # Not for MVP
 )
 DISCOVERIES_FIND = (
     "trinkets",
@@ -145,7 +145,7 @@ DISCOVERIES_FIND = (
     "scroll/book",
     "magic weapon/armor",
     "artifact",
-    "roll twice"  # TODO: roll twice except this result and combine answers
+    "roll twice"
 )
 DANGERS_TRAP = (
     "alarm",
@@ -159,19 +159,19 @@ DANGERS_TRAP = (
     "Element (p50)"  # TODO: roll for element
     "ambush",
     "magical",
-    "roll twice"  # TODO: roll twice except this result
+    "roll twice"
 )
-DANGERS_CREATURE = (  # TODO: roll for all params of creature
+DANGERS_CREATURE = (
     "waiting in ambush",
-    "fighting/squabbling",
+    "fighting/squabbling",  # TODO: make depended on number appearing
     "prowling/on patrol",
     "looking for food",
     "eating/resting",
-    "guarding",
+    "guarding",  # TODO: make depended on findings
     "on the move",
     "searching/scavenging",
     "returning to den",
-    "making plans",
+    "making plans",  # TODO: make depended on intelligence
     "sleeping",
     "dying"
 )
@@ -183,7 +183,7 @@ DANGERS_ENTITY = (
     "high priest",
     "oracle",
     "wizard/witch/alchemist",
-    "Monster lord (p49)",  # TODO: monster lord
+    "Monster lord",  # TODO: monster lord
     "evil spirit/ghost",
     "undead lord (lich, etc.)",
     "demon",
@@ -234,89 +234,103 @@ BEAST_WATERGOING = (
     "squid/octopus",
     "whale"
 )
-HUMANOID_COMMON = (
+HUMANOID_COMMON = (  # Chances changed
     "halfling",
-    "halfling",
-    "halfling",
-    "goblin/kobold",
-    "goblin/kobold",
-    "dwarf/gnome",
-    "dwarf/gnome",
-    "orc/hobgoblin/gnoll",
-    "orc/hobgoblin/gnoll",
-    "half-elf/half-orc, etc.",
-    "half-elf/half-orc, etc.",
-    "elf"
+    "dwarf",
+    "elf",
+    "half-elf",
+    "goblin"
+    "goblin",
+    "hobgoblin",
+    "kobold",
+    "dwarf",
+    "orc",
+    "orc",
+    "half-orc",
 )
-HUMANOID_UNCOMMON = (
+HUMANOID_UNCOMMON = (  # Chances changed
     "fey (tiny)",
-    "catfolk/dogfolk",
-    "catfolk/dogfolk",
-    "lizardfolk/merfolk",
-    "lizardfolk/merfolk",
-    "lizardfolk/merfolk",
+    "catfolk",
+    "dogfolk",
+    "lizardfolk",
     "birdfolk",
-    "ogre/troll",
-    "ogre/troll",
-    "ogre/troll",
-    "cyclopes/giant",
-    "cyclopes/giant"
+    "ogre",
+    "troll",
+    "ogre",
+    "troll",
+    "cyclopes",
+    "giant"
 )
-HUMANOID_HYBRID = (
+HUMANOID_HYBRID = (  # Content changed
     "centaur",
     "centaur",
-    "werewolf/werebear",
-    "werewolf/werebear",
-    "werewolf/werebear",
-    "werecreature (human + beast)",  # TODO: make human + beast werecreature
-    "human + beast",  # TODO: make human-beast hybrids
-    "human + beast",
-    "human + beast",
-    "human + beast",
-    "human + 2 beasts",
-    "human + 2 beasts"
+    "centaur",
+    "werewolf",
+    "werewolf",
+    "werewolf",
+    "werebear",
+    "weresnake",
+    "wereboar",
+    "werecat",
+    "weredeer",
+    "wereraven",
+    "human-shark hybrid"
 )
-MONSTER_UNUSUAL = (
-    "plant/fungus",
-    "plant/fungus",
-    "plant/fungus",
-    "Undead Human",
-    "Undead Human",
-    "Undead Humanoid",  # TODO: random humanoid choice
-    "beast + beast",  # TODO: beast + beast creature
-    "beast + beast",
-    "beast + ability",  # TODO: beast + ability
-    "beast + ability",
-    "beast + feature",  # TODO: beast + feature
-    "beast + feature",
+MONSTER_UNUSUAL = (  # Content changed
+    "plant (human size)",
+    "plant (human size)",
+    "fungus (human size)",
+    "undead human",
+    "undead human",
+    "undead human",
+    "undead elf",
+    "undead dwarf",
+    "undead halfling",
+    "undead orc",
+    "undead goblin",
+    "wolf with huge strength and wierd color",
+    "big rat with huge strength and wierd color",
+    "giant bug",
+    "lizard with fire breath",
+    "lizard with frosty breath",
+    "small dragon turtle",
 )
-MONSTER_RARE = (
-    "slime/ooze (Amorphous)",
-    "slime/ooze (Amorphous)",
-    "slime/ooze (Amorphous)",
-    "creation (Construct)",
-    "creation (Construct)",
-    "creation (Construct)",
-    "beast + oddity",  # TODO: beast + oddity
-    "beast + oddity",
-    "beast + oddity",
-    "Unnatural Entity",
-    "Unnatural Entity",
-    "Unnatural Entity"
+MONSTER_RARE = (  # Content changed
+    "slime/ooze (amorphous)",
+    "slime/ooze (amorphous)",
+    "slime/ooze (amorphous)",
+    "creation (construct)",
+    "creation (construct)",
+    "creation (construct)",
+    "griffin",
+    "chimera (lion, goat and snake hybrid)",
+    "manticore (lion body, scorpion tale)",
+    "hippogriff",
+    "minotaur",
+    "small dragon",
+    "unnatural entity",
+    "unnatural entity",
+    "big dragon turtle",
+    "huge insect",
 )
-MONSTER_LEGENDARY = (
-    "dragon/colossus (Huge)",
-    "dragon/colossus (Huge)",
-    "dragon/colossus (Huge)",
-    "Unusual + Huge",  # TODO: unusual + huge
-    "Unusual + Huge",
-    "Unusual + Huge",
-    "Rare + Huge",  # TODO: rare + huge
-    "Rare + Huge",
-    "Rare + Huge",
-    "Beast + dragon",  # TODO: beast + dragon
-    "Unusual + dragon",  # TODO: unusual + dragon
-    "Rare + dragon"  # # TODO: rare + dragon
+MONSTER_LEGENDARY = (  # Content changed
+    "fire dragon",
+    "fire dragon",
+    "fire dragon",
+    "frost dragon",
+    "acid dragon",
+    "magic dragon"  # TODO: magic type
+    "colossus"
+    "huge plant",
+    "undead giant",
+    "undead dragon",
+    "huge wolf/bear/boar",
+    "huge raven",
+    "huge snake",
+    "huge creation (construct)"
+    "huge unnatural entity",
+    "huge unnatural entity",
+    "divine spirit of nature (one element)",
 )
 ACTIVITY = (
     "waiting in ambush",

@@ -47,9 +47,13 @@ def new_creature() -> Creature:
     else:
         alignment = random.choice(data.ALIGNMENT)
 
-    # TODO: relate disposition to alignment: only good, neutral or lawful can be hopeful
     # Define creature disposition
+    # TODO: relate disposition to alignment: only good, neutral or lawful can be hopeful
     disposition = random.choice(data.DISPOSITION)
+
+    # Define number appearing
+    num = get_creature_num(creature_subtype)
+
 
 
 def get_creature_type() -> str:
@@ -137,3 +141,12 @@ def get_creature_name(creature_subtype: str or None) -> str:
         creature_name = random.choice(data.MONSTER_LEGENDARY)
     return creature_name
 
+
+def get_creature_num(creature_subtype: str) -> int:
+    if creature_subtype == "legendary":
+        num = random.choice(1, 1, 1, 1, 1, 1, 2, 2, 3)
+    elif creature_subtype in ["rare", "hybrid", "uncommon"]:
+        num = random.choice(1, 1, 2, 3, 4, 5, 6, 7)
+    else:
+        num = random.choice(1, 2, random.randint(3, 15))
+    return num
