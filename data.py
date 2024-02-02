@@ -92,13 +92,13 @@ THEMES_EXTRAORDINARY = (
 # Content in tuples:
 # themed/unthemed, common/unique, # of discoveries, # of dangers
 AREA_CONTENT = (
-    ("unthemed", "common", False, False),
+    ("unthemed", "common", False, True),  # Previously "False, False"
     ("unthemed", "common", False, True),
     ("unthemed", "common", True, True),
     ("unthemed", "common", True, True),
     ("unthemed", "common", True, False),
     ("unthemed", "common", True, False),
-    ("themed", "common", False, True),  # TODO: choose theme randomly with countdowns
+    ("themed", "common", False, True),
     ("themed", "common", True, True),
     ("themed", "common", True, False),
     ("themed", "unique", False, True),
@@ -156,12 +156,187 @@ DANGERS_TRAP = (
     "chopping/slashing",
     "confusing (maze, etc.)",
     "gas (poison, etc.)",
-    "Element (p50)"  # TODO: roll for element
+    "Element (p50)",  # TODO: roll for element
     "ambush",
     "magical",
-    "roll twice"
+    "roll twice",
+    "roll twice"  # More traps!
 )
-DANGERS_CREATURE = (
+# DANGERS_ENTITY = (  TODO later maybe as tags or attrs
+#     "alien interloper",
+#     "vermin lord",
+#     "criminal mastermind",
+#     "warlord",
+#     "high priest",
+#     "oracle",
+#     "wizard/witch/alchemist",
+#     "Monster lord",
+#     "evil spirit/ghost",
+#     "undead lord (lich, etc.)",
+#     "demon",
+#     "dark god"
+# )
+
+# Creatures
+
+HUMAN = (
+    ("human", ["group"]),
+    ("human", ["horde"]),
+)
+BEAST_EARTHBOUND = (
+    ("big spider", ["swarm"]),
+    ("big worm", ["swarm"]),
+    ("big ant/centipede/scorpion", ["swarm"]),
+    ("big snake/lizard", ["horde"]),
+    ("vole/rat/wease", ["swarm"]),
+    ("boar", ["group"]),
+    ("dog/fox/wolf", ["group"]),
+    ("lion/panther", ["group"]),
+    ("cat", ["solitary"]),
+    ("deer/horse/camel", ["group"]),
+    ("ox/rhino", ["group"]),
+    ("bear", ["solitary"]),
+    ("ape/gorilla", ["group"]),
+)
+BEAST_AIRBORNE = (
+    ("mosquito/firefly", ["swarm"]),
+    ("locust/dragonfly/moth", ["swarm"]),
+    ("bee/wasp", ["swarm"]),
+    ("chicken/duck/goose", ["group"]),
+    ("songbird/parrot", ["horde"]),
+    ("gull/waterbird", ["group"]),
+    ("heron/crane/stork", ["group"]),
+    ("crow/raven", ["horde"]),
+    ("hawk/falcon", ["group"]),
+    ("eagle/owl", ["group"]),
+    ("condor", ["group"]),
+
+)
+# BEAST_WATERGOING = (  # TODO: add later
+#     "insect",
+#     "jelly/anemone",
+#     "clam/oyster/snail",
+#     "eel/snake",
+#     "frog/toad",
+#     "fish",
+#     "crab/lobster",
+#     "turtle",
+#     "alligator/crocodile",
+#     "dolphin/shark",
+#     "squid/octopus",
+#     "whale"
+# )
+HUMANOID_COMMON = (  # Chances changed
+    ("halfling", ["group"]),
+    ("dwarf", ["horde"]),
+    ("elf", ["group"]),
+    ("half-elf", ["group"]),
+    ("dark elf", ["horde"]),
+    ("goblin", ["swarm"]),
+    ("goblin", ["horde"]),
+    ("hobgoblin", ["group"]),
+    ("kobold", ["horde"]),
+    ("orc", ["horde"]),
+    ("orc", ["horde"]),
+    ("half-orc", ["solitary"]),
+)
+HUMANOID_UNCOMMON = (  # Chances changed
+    ("fey (tiny)", ["horde"]),
+    ("catfolk", ["horde"]),
+    ("dogfolk", ["horde"]),
+    ("lizardfolk", ["horde"]),
+    ("birdfolk", ["horde"]),
+    ("ogre", ["group"]),
+    ("ogre", ["group"]),
+    ("troll", ["group"]),
+    ("troll", ["group"]),
+    ("cyclopes", ["solitary"]),
+    ("giant", ["solitary"]),
+)
+HUMANOID_HYBRID = (  # Content changed
+    ("centaur", ["horde"]),
+    ("centaur", ["horde"]),
+    ("centaur", ["horde"]),
+    ("werewolf", ["solitary"]),
+    ("werewolf", ["solitary"]),
+    ("werewolf", ["solitary"]),
+    ("werebear", ["solitary"]),
+    ("weresnake", ["solitary"]),
+    ("wereboar", ["solitary"]),
+    ("werecat", ["solitary"]),
+    ("weredeer", ["solitary"]),
+    ("wereraven", ["solitary"]),
+    ("triton/merman", ["horde"]),
+    ("human-shark hybrid", ["group"]),
+)
+MONSTER_UNUSUAL = (  # Content changed
+    ("undead human", ["horde"]),
+    ("undead human", ["horde"]),
+    ("undead human", ["group"]),
+    ("undead elf", ["group"]),
+    ("undead dwarf", ["horde"]),
+    ("undead halfling", ["group"]),
+    ("undead orc", ["horde"]),
+    ("undead goblin", ["horde"]),
+    ("ghost", ["horde"]),
+    ("wolf with huge strength and wierd color", ["group"]),
+    ("big rat with huge strength and wierd color", ["horde"]),
+    ("boar with huge strength and wierd color", ["group"]),
+    ("huge vampire bat", ["horde"]),
+    ("giant bug", ["horde"]),
+    ("giant spider", ["horde"]),
+)
+MONSTER_RARE = (  # Content changed
+    ("slime/ooze (amorphous)", ["group"]),
+    ("plant (human size)", ["group"]),
+    ("fungus (human size)", ["group"]),
+    ("creation (construct)", ["group"]),
+    ("evil spirit", ["solitary"]),
+    ("demon", ["group"]),
+    ("griffin", ["solitary"]),
+    ("gargoyle", ["group"]),
+    ("chimera (lion, goat and snake hybrid)", ["solitary"]),
+    ("manticore (lion body, scorpion tale)", ["solitary"]),
+    ("hippogriff", ["group"]),
+    ("harpy", ["group"]),
+    ("minotaur", ["solitary"]),
+    ("dinosaur (T-Rex)", ["group"]),
+    ("pteranodon", ["group"]),
+    ("small dragon", ["solitary"]),
+    ("big dragon turtle", ["solitary"]),
+    ("huge insect", ["group"]),
+    ("lizard with fire breath", ["group"]),
+    ("lizard with frosty breath", ["group"]),
+    ("dragon turtle", ["group"]),
+    ("earth elemental", ["solitary"]),
+    ("water elemental", ["solitary"]),
+    ("fire elemental", ["solitary"]),
+    ("thunder elemental", ["solitary"]),
+)
+MONSTER_LEGENDARY = (  # Content changed
+    ("fire dragon", ["solitary"]),
+    ("fire dragon", ["solitary"]),
+    ("fire dragon", ["solitary"]),
+    ("frost dragon", ["solitary"]),
+    ("acid dragon", ["solitary"]),
+    ("magic dragon",  ["solitary"]), # TODO: magic type
+    ("colossus", ["solitary"]),
+    ("lich", ["solitary"]),
+    ("huge plant", ["solitary"]),
+    ("ancient spider lord", ["solitary"]),
+    ("undead giant", ["solitary"]),
+    ("undead dragon", ["solitary"]),
+    ("huge wolf/bear/boar", ["solitary"]),
+    ("huge raven", ["solitary"]),
+    ("huge snake", ["solitary"]),
+    ("huge turtle", ["solitary"]),
+    ("huge creation (construct)", ["solitary"]),
+    ("demon lord", ["solitary"]),
+    ("dark god", ["solitary"]),
+    ("vermin/insect lord", ["solitary"]),
+    ("divine spirit of nature (one element)", ["solitary"]),
+)
+ACTIVITY = (
     "waiting in ambush",
     "fighting/squabbling",  # TODO: make depended on number appearing
     "prowling/on patrol",
@@ -172,177 +347,6 @@ DANGERS_CREATURE = (
     "searching/scavenging",
     "returning to den",
     "making plans",  # TODO: make depended on intelligence
-    "sleeping",
-    "dying"
-)
-DANGERS_ENTITY = (
-    "alien interloper",
-    "vermin lord",
-    "criminal mastermind",
-    "warlord",
-    "high priest",
-    "oracle",
-    "wizard/witch/alchemist",
-    "Monster lord",  # TODO: monster lord
-    "evil spirit/ghost",
-    "undead lord (lich, etc.)",
-    "demon",
-    "dark god"
-)
-
-# Creatures (in addition to DANGERS_CREATURE)
-
-BEAST_EARTHBOUND = (
-    "termite/tick/louse",
-    "snail/slug/worm",
-    "ant/centipede/scorpion",
-    "snake/lizard",
-    "vole/rat/wease",
-    "boar/pig",
-    "dog/fox/wolf",
-    "cat/lion/panther",
-    "deer/horse/camel",
-    "ox/rhino",
-    "bear/ape/gorilla",
-    "mammoth/dinosaur"
-)
-BEAST_AIRBORNE = (
-    "mosquito/firefly",
-    "locust/dragonfly/moth",
-    "bee/wasp",
-    "chicken/duck/goose",
-    "songbird/parrot",
-    "gull/waterbird",
-    "heron/crane/stork",
-    "crow/raven",
-    "hawk/falcon",
-    "eagle/owl",
-    "condor",
-    "pteranodon"
-)
-BEAST_WATERGOING = (
-    "insect",
-    "jelly/anemone",
-    "clam/oyster/snail",
-    "eel/snake",
-    "frog/toad",
-    "fish",
-    "crab/lobster",
-    "turtle",
-    "alligator/crocodile",
-    "dolphin/shark",
-    "squid/octopus",
-    "whale"
-)
-HUMANOID_COMMON = (  # Chances changed
-    "halfling",
-    "dwarf",
-    "elf",
-    "half-elf",
-    "goblin"
-    "goblin",
-    "hobgoblin",
-    "kobold",
-    "dwarf",
-    "orc",
-    "orc",
-    "half-orc",
-)
-HUMANOID_UNCOMMON = (  # Chances changed
-    "fey (tiny)",
-    "catfolk",
-    "dogfolk",
-    "lizardfolk",
-    "birdfolk",
-    "ogre",
-    "troll",
-    "ogre",
-    "troll",
-    "cyclopes",
-    "giant"
-)
-HUMANOID_HYBRID = (  # Content changed
-    "centaur",
-    "centaur",
-    "centaur",
-    "werewolf",
-    "werewolf",
-    "werewolf",
-    "werebear",
-    "weresnake",
-    "wereboar",
-    "werecat",
-    "weredeer",
-    "wereraven",
-    "human-shark hybrid"
-)
-MONSTER_UNUSUAL = (  # Content changed
-    "plant (human size)",
-    "plant (human size)",
-    "fungus (human size)",
-    "undead human",
-    "undead human",
-    "undead human",
-    "undead elf",
-    "undead dwarf",
-    "undead halfling",
-    "undead orc",
-    "undead goblin",
-    "wolf with huge strength and wierd color",
-    "big rat with huge strength and wierd color",
-    "giant bug",
-    "lizard with fire breath",
-    "lizard with frosty breath",
-    "small dragon turtle",
-)
-MONSTER_RARE = (  # Content changed
-    "slime/ooze (amorphous)",
-    "slime/ooze (amorphous)",
-    "slime/ooze (amorphous)",
-    "creation (construct)",
-    "creation (construct)",
-    "creation (construct)",
-    "griffin",
-    "chimera (lion, goat and snake hybrid)",
-    "manticore (lion body, scorpion tale)",
-    "hippogriff",
-    "minotaur",
-    "small dragon",
-    "unnatural entity",
-    "unnatural entity",
-    "big dragon turtle",
-    "huge insect",
-)
-MONSTER_LEGENDARY = (  # Content changed
-    "fire dragon",
-    "fire dragon",
-    "fire dragon",
-    "frost dragon",
-    "acid dragon",
-    "magic dragon"  # TODO: magic type
-    "colossus"
-    "huge plant",
-    "undead giant",
-    "undead dragon",
-    "huge wolf/bear/boar",
-    "huge raven",
-    "huge snake",
-    "huge creation (construct)"
-    "huge unnatural entity",
-    "huge unnatural entity",
-    "divine spirit of nature (one element)",
-)
-ACTIVITY = (
-    "waiting in ambush",
-    "fighting/squabbling",
-    "prowling/on patrol",
-    "looking for food",
-    "eating/resting",
-    "guarding",
-    "on the move",
-    "searching/scavenging",
-    "returning to den",
-    "making plans",
     "sleeping",
     "dying"
 )
@@ -369,4 +373,3 @@ DISPOSITION = (
     "curious/hopeful",
     "friendly"
 )
-

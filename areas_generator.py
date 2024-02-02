@@ -1,5 +1,6 @@
 import data
 from helpers import roll_d12
+from creatures_generator import new_creature
 
 import random
 
@@ -26,7 +27,7 @@ def get_discoveries() -> list:
 def get_dangers() -> list:
     dangers = []
     r = roll_d12()
-    if r <= 4:
+    if r <= 3:
         temp = random.choice(data.DANGERS_TRAP)
         if not temp == "roll twice":
             dangers.append("trap: " + temp)
@@ -34,10 +35,19 @@ def get_dangers() -> list:
             for i in range(2):
                 dangers.append("trap: " + data.DANGERS_TRAP[random.randint(0, 10)])
     elif r <= 11:
-        dangers.append("creature")
+        creature = new_creature()
+        dangers.append(creature)
     else:
-        dangers.append("creature")
-        dangers.append(random.choice([random.choice(data.DANGERS_TRAP), "creature"]))
+        # Always add creature
+        creature = new_creature()
+        dangers.append(creature)
+        # Creature or trap randomly
+        r = roll_d12()
+        if r <= 7:
+            creature = new_creature()
+            dangers.append(creature)
+        else:
+            dangers.append("trap: " + data.DANGERS_TRAP[random.randint(0, 10)])
     return dangers
 
 
@@ -74,7 +84,8 @@ def generate_area(themes: list) -> tuple:
     if not area_content[3]:
         dangers = None
     else:
-        dangers = (get_dangers())
+        dangers = get_dangers()
 
+    # TODO: create class Area
     area = (theme_name, area_type, discoveries, dangers)
     return area

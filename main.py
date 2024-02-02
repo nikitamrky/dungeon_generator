@@ -67,6 +67,7 @@ def main():
         for discovery in new_area[2]:
             discoveries_str = "\n- ".join([discoveries_str, discovery])
 
+    # Compose dangers string
     if not new_area[3]:
         # No dangers
         dangers_str = " -"
@@ -74,7 +75,13 @@ def main():
         # Compose list of dangers
         dangers_str = ""
         for danger in new_area[3]:
-            dangers_str = "\n- ".join([dangers_str, danger])
+            # Concatenate if trap
+            if isinstance(danger, str):
+                dangers_str = "\n- ".join([dangers_str, danger])
+            # Extract name and attrs if creature:
+            else:
+                creature_str = f"{danger.name} ({danger.num})"
+                dangers_str = "\n- ".join([dangers_str, creature_str])
 
     # Provide area description
     print(
