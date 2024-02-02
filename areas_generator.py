@@ -23,7 +23,7 @@ def get_discoveries() -> list:
     return discoveries
 
 
-def get_dangers() -> list:  # TODO
+def get_dangers() -> list:
     dangers = []
     r = roll_d12()
     if r <= 4:
@@ -36,7 +36,8 @@ def get_dangers() -> list:  # TODO
     elif r <= 11:
         dangers.append("creature")
     else:
-        dangers.append(random.choice(data.DANGERS_ENTITY))
+        dangers.append("creature")
+        dangers.append(random.choice([random.choice(data.DANGERS_TRAP), "creature"]))
     return dangers
 
 
@@ -51,9 +52,14 @@ def generate_area(themes: list) -> tuple:
 
     # Define theme
     if area_content[0] == "unthemed":
-        theme = "unthemed"
+        theme_name = "unthemed"
     else:
-        theme = "themed"  # TODO: choose theme from countdowns
+        while True:
+            theme_obj = random.choice(themes)
+            if theme_obj.countdown > 0:
+                theme_obj.mark()
+                theme_name = theme_obj.name
+                break
 
     # Define type (common/uncommon)
     area_type = area_content[1]
@@ -70,5 +76,5 @@ def generate_area(themes: list) -> tuple:
     else:
         dangers = (get_dangers())
 
-    area = (theme, area_type, discoveries, dangers)
+    area = (theme_name, area_type, discoveries, dangers)
     return area
