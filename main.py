@@ -1,7 +1,5 @@
-import data
-from helpers import get_themes_number, get_area_limit_number
-from themes_generator import generate_themes
-from areas_generator import generate_area
+import old_data
+from helpers import get_area_limit_number
 
 import random
 
@@ -13,12 +11,7 @@ def main():
     builder = random.choice(data.FOUNDATION_BUILDERS)
     function = random.choice(data.FOUNDATION_FUNCTIONS)
     ruination = random.choice(data.RUINATIONS)
-
-    # Define number of themes
-    themes_number = get_themes_number(size)
-
-    # Generate themes
-    themes = generate_themes(themes_number, size)
+    # TODO: current_condition = random.choice
 
     # Construct response string
     s = ("Dungeon #1:\n" 
@@ -29,10 +22,6 @@ def main():
          "Ruined by: %s\n" 
          "Themes & countdowns:"
          % (size, area_limit, builder, function, ruination))
-
-    # Append string with themes
-    for theme in themes:
-        s = '\n'.join([s, f"- {theme.name}: {theme.countdown}"])
 
     # Print result
     print(s)
@@ -47,52 +36,45 @@ def main():
         else:
             break
 
-    # Reminder to compose unique areas list
-    unique_areas_num = int(area_limit / 2)
-    common_areas_num = int((area_limit - unique_areas_num - 1) / 2.5) + 1  # Improvised formula
-    print("Write down %i+ common areas and %i unique areas aligning with dungeon themes. \n"
-          "Roll or choose one of them every time you need to present a new area.\n"
-          % (common_areas_num, unique_areas_num))
-
     # Generate new random area
-    new_area = generate_area(themes)
+    # new_area = generate_area()
 
     # Compose discoveries string
-    if not new_area[2]:
-        # No discoveries
-        discoveries_str = " -"
-    else:
-        # Compose list of discoveries
-        discoveries_str = ""
-        for discovery in new_area[2]:
-            discoveries_str = "\n- ".join([discoveries_str, discovery])
+    # if not new_area[2]:
+    #     # No discoveries
+    #     discoveries_str = " -"
+    # else:
+    #     # Compose list of discoveries
+    #     discoveries_str = ""
+    #     for discovery in new_area[2]:
+    #         discoveries_str = "\n- ".join([discoveries_str, discovery])
 
     # Compose dangers string
-    if not new_area[3]:
-        # No dangers
-        dangers_str = " -"
-    else:
-        # Compose list of dangers
-        dangers_str = ""
-        for danger in new_area[3]:
-            # Concatenate if trap
-            if isinstance(danger, str):
-                dangers_str = "\n- ".join([dangers_str, danger])
-            # Extract name and attrs if creature:
-            else:
-                creature_str = f"{danger.name} ({danger.num})"
-                dangers_str = "\n- ".join([dangers_str, creature_str])
+    # if not new_area[3]:
+    #     # No dangers
+    #     dangers_str = " -"
+    # else:
+    #     # Compose list of dangers
+    #     dangers_str = ""
+    #     for danger in new_area[3]:
+    #         # Concatenate if trap
+    #         if isinstance(danger, str):
+    #             dangers_str = "\n- ".join([dangers_str, danger])
+    #         # Extract name and attrs if creature:
+    #         else:
+    #             creature_str = f"{danger.name} ({danger.num})"
+    #             dangers_str = "\n- ".join([dangers_str, creature_str])
 
     # Provide area description
-    print(
-        "Type: %s\n"
-        "Theme: %s\n"
-        "Discoveries:"
-        "%s\n"
-        "Dangers:"
-        "%s"
-        % (new_area[1], new_area[0], discoveries_str, dangers_str)
-    )
+    # print(
+    #     "Type: %s\n"
+    #     "Theme: %s\n"
+    #     "Discoveries:"
+    #     "%s\n"
+    #     "Dangers:"
+    #     "%s"
+    #     % (new_area[1], new_area[0], discoveries_str, dangers_str)
+    # )
 
 
 if __name__ == "__main__":

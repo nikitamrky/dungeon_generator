@@ -1,22 +1,6 @@
-import data
+import old_data
 
 import random
-
-
-def get_themes_number(size: str) -> int:
-    """Generate number of themes as well as theme countdowns"""
-
-    # Return 1d4 dice result if dungeon size is small
-    if size.lower() == "small":
-        return random.randint(1, 4)
-
-    # Define a constant term (k) corresponding to dungeon size
-    if size.lower() == "medium": k = 0
-    elif size.lower() == "large": k = 1
-    else: k = 2
-
-    # Calculate and return result (1d6 + k)
-    return random.randint(1,6) + k
 
 
 def roll_d6(n=1) -> int:
@@ -32,21 +16,9 @@ def roll_d12() -> int:
 
 def get_area_limit_number(size: str) -> int:
     """Generate area limit for dungeon"""
-
     # Define coefficient for 1d6 dice (a) and constant term (k)
     if size.lower() == "small":
-        a = 1
-        k = 2
-    elif size.lower() == "medium":
-        a = 2
-        k = 4
-    elif size.lower() == "large":
-        a = 3
-        k = 6
+        n = random.randint(4, 7)
     else:
-        a = 4
-        k = 10
-
-    # Calculate and return the number of areas
-    n = roll_d6(a) + k
+        n = random.randint(8, 11)
     return n
