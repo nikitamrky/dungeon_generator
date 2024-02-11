@@ -33,7 +33,7 @@ def main():
 
     # Define current condition
     conditions = [condition["description"] for condition
-                 in data.CURRENT_CONDITIONS if ruination in condition["ruinations"]]
+                  in data.CURRENT_CONDITIONS if ruination in condition["ruinations"]]
     current_condition = random.choice(conditions)
 
     # Define what creatures could be met in the dungeon
