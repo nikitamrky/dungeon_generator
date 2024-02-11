@@ -59,10 +59,18 @@ def set_monster_invasion_creatures(area_limit: int) -> dict:
 
 
 def set_exploration_creatures(area_limit: int) -> dict:
-    main_creature_num = int(area_limit / 4)
-    main_creature_options = [creature["kind"] for creature
-                             in data.MONSTERS if creature["prevalence"] in ("uncommon", "rare")]
-    main_creatures = random.sample(main_creature_options, k=main_creature_num)
+    main_creature_num = int(1 + (area_limit / 5.5))
+    main_creature_group = [creature["kind"] for creature
+                           in data.MONSTERS if not creature["sociality"] == "solitary"]
+    main_creatures = [random.choice(main_creature_group)]
+    main_creature_num -= 1
+    if main_creature_num > 0:
+        main_creature_options = [creature["kind"] for creature
+                                 in data.MONSTERS]
+        main_creature_add = random.sample(main_creature_options,
+                                          k=main_creature_num)
+        for el in main_creature_add:
+            main_creatures.append(el)
     additional_creature_options = [creature["kind"] for creature
                                    in data.HUMANOIDS if creature["civilized"]]
     additional_creature_num = int(area_limit / 3.5)

@@ -408,7 +408,7 @@ MONSTERS = (
      "disposition": ("агрессия",),
      "alignment": ("нейтральное", "злое")
      },
-    {"kind": "механизм", "prevalence": "legendary", "sociality": "horde",
+    {"kind": "механизм", "prevalence": "legendary", "sociality": "group",
      "disposition": ("агрессия",),
      "alignment": ("нейтральное",)
      },
