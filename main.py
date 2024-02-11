@@ -1,40 +1,67 @@
-import old_data
-from helpers import get_area_limit_number
+import data
+from helpers import get_creatures
 
 import random
 
 
 def main():
-    # Define all dungeon meta data variables except themes
-    size = random.choice(data.SIZES)
-    area_limit = get_area_limit_number(size)
-    builder = random.choice(data.FOUNDATION_BUILDERS)
-    function = random.choice(data.FOUNDATION_FUNCTIONS)
-    ruination = random.choice(data.RUINATIONS)
-    # TODO: current_condition = random.choice
 
-    # Construct response string
-    s = ("Dungeon #1:\n" 
+    # Get dungeon size from user
+    while True:
+        temp = input("Выберите размер подземелья: s (small) или l (large): ")
+        if temp in ("s", "l"):
+            break
+
+    # Decode dungeon size:
+    if temp == "s":
+        size = "small"
+        area_limit = random.randint(5, 7)
+    else:
+        size = "large"
+        area_limit = random.randint(8, 12)
+
+    # Define builder(s)
+    builder = random.choice(data.FOUNDATION_BUILDERS)
+
+    # Define old function of the place
+    functions = [function["description"] for function
+                 in data.FOUNDATION_FUNCTIONS if builder in function["builders"]]
+    function = random.choice(functions)
+
+    # Define cause of ruination
+    ruination = random.choice(data.RUINATIONS)
+
+    # Define current condition
+    conditions = [condition["description"] for condition
+                 in data.CURRENT_CONDITIONS if ruination in condition["ruinations"]]
+    current_condition = random.choice(conditions)
+
+    # Define what creatures could be met in the dungeon
+    creatures = get_creatures(area_limit, current_condition)
+
+    # Compose strings for creatures
+    main_creatures = ", ".join(creatures["main_creatures"])
+    additional_creatures = ", ".join(creatures["additional_creatures"])
+    boss = creatures["boss"] or None
+
+    # Construct dungeon description string
+    s = ("Dungeon:\n" 
          "Size: %s\n" 
          "Area limit: %i\n" 
-         "Built by %s\n" 
+         "Built by: %s\n" 
          "Function: %s\n" 
          "Ruined by: %s\n" 
-         "Themes & countdowns:"
-         % (size, area_limit, builder, function, ruination))
+         "Current condition: %s\n"
+         "Main creatures to meet: %s\n"
+         "Additional creatures to meet: %s\n"
+         "Boss: %s\n"
+         % (size, area_limit, builder, function, ruination, current_condition,
+            main_creatures, additional_creatures, boss)
+         )
 
     # Print result
     print(s)
 
-    # Ask if user confirms dungeon meta data
-    while True:
-        proceed = input("Do you want to proceed with this dungeon? [y/n]: ")
-        if "n" in proceed.lower():
-            quit(1)  # TODO: chatbot will offer another dungeon
-        elif not "y" in proceed.lower():
-            pass
-        else:
-            break
 
     # Generate new random area
     # new_area = generate_area()
