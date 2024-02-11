@@ -39,10 +39,32 @@ def main():
     # Define what creatures could be met in the dungeon
     creatures = get_creatures(area_limit, current_condition)
 
-    # Compose strings for creatures
-    main_creatures = ", ".join(creatures["main_creatures"])
-    additional_creatures = ", ".join(creatures["additional_creatures"])
-    boss = creatures["boss"] or None
+    # Set dispositions for creatures
+    for creature in creatures["main_creatures"]:
+        creature.set_disposition()
+    for creature in creatures["additional_creatures"]:
+        creature.set_disposition()
+    if creatures["boss"]:
+        creatures["boss"].set_disposition()
+
+    # Compose string with creatures descriptions for...
+    # ... main creatures
+    main_creatures = "- "
+    print()  # Test code
+    main_creatures_content = [f"{creature.kind} ({creature.disposition})"
+                              for creature in creatures["main_creatures"]]
+    main_creatures += "\n- ".join(main_creatures_content)
+    # ... additional creatures
+    additional_creatures = "- "
+    additional_creatures_content = [f"{creature.kind} ({creature.disposition})"
+                              for creature in creatures["additional_creatures"]]
+    additional_creatures += "\n- ".join(additional_creatures_content)
+    # ... boss
+    if not creatures["boss"]:
+        boss = "нет"
+    else:
+        boss = ("%s (%s)"
+                % (creatures["boss"].kind, creatures["boss"].disposition))
 
     # Construct dungeon description string
     s = ("Dungeon:\n" 
@@ -52,8 +74,8 @@ def main():
          "Function: %s\n" 
          "Ruined by: %s\n" 
          "Current condition: %s\n"
-         "Main creatures to meet: %s\n"
-         "Additional creatures to meet: %s\n"
+         "Main creatures to meet: \n%s\n"
+         "Additional creatures to meet: \n%s\n"
          "Boss: %s\n"
          % (size, area_limit, builder, function, ruination, current_condition,
             main_creatures, additional_creatures, boss)
@@ -61,47 +83,6 @@ def main():
 
     # Print result
     print(s)
-
-
-    # Generate new random area
-    # new_area = generate_area()
-
-    # Compose discoveries string
-    # if not new_area[2]:
-    #     # No discoveries
-    #     discoveries_str = " -"
-    # else:
-    #     # Compose list of discoveries
-    #     discoveries_str = ""
-    #     for discovery in new_area[2]:
-    #         discoveries_str = "\n- ".join([discoveries_str, discovery])
-
-    # Compose dangers string
-    # if not new_area[3]:
-    #     # No dangers
-    #     dangers_str = " -"
-    # else:
-    #     # Compose list of dangers
-    #     dangers_str = ""
-    #     for danger in new_area[3]:
-    #         # Concatenate if trap
-    #         if isinstance(danger, str):
-    #             dangers_str = "\n- ".join([dangers_str, danger])
-    #         # Extract name and attrs if creature:
-    #         else:
-    #             creature_str = f"{danger.name} ({danger.num})"
-    #             dangers_str = "\n- ".join([dangers_str, creature_str])
-
-    # Provide area description
-    # print(
-    #     "Type: %s\n"
-    #     "Theme: %s\n"
-    #     "Discoveries:"
-    #     "%s\n"
-    #     "Dangers:"
-    #     "%s"
-    #     % (new_area[1], new_area[0], discoveries_str, dangers_str)
-    # )
 
 
 if __name__ == "__main__":

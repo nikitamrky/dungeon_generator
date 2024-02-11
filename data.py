@@ -472,19 +472,19 @@ MONSTERS = (
 
 BOSSES = (  # Content changed
     {"kind": "дракон", "prevalence": "rare", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие",),
      "alignment": ("злое",)
      },
     {"kind": "ледяной дракон", "prevalence": "legendary", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие",),
      "alignment": ("злое",)
      },
     {"kind": "кислотный дракон", "prevalence": "legendary", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие",),
      "alignment": ("злое",)
      },
     {"kind": "линдвурм", "prevalence": "legendary", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие",),
      "alignment": ("злое",)
      },
     {"kind": "лич", "prevalence": "rare", "sociality": "solitary",
@@ -496,23 +496,19 @@ BOSSES = (  # Content changed
      "alignment": ("злое",)
      },
     {"kind": "гигантская разумная птица", "prevalence": "legendary", "sociality": "group",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "любопытство",),
      "alignment": ("хаотичное", "злое")
      },
     {"kind": "гигантское насекомое", "prevalence": "legendary", "sociality": "solitary",
      "disposition": ("агрессия",),
-     "alignment": ("злое",)
-     },
-    {"kind": "гигантское насекомое", "prevalence": "legendary", "sociality": "solitary",
-     "disposition": ("агрессия",),
-     "alignment": ("злое",)
+     "alignment": ("злое", "любопытство",)
      },
     {"kind": "гигантский волк/медведь/пес", "prevalence": "legendary", "sociality": "solitary",
      "disposition": ("агрессия",),
      "alignment": ("злое",)
      },
     {"kind": "огромный конструкт/механизм", "prevalence": "legendary", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие"),
      "alignment": ("нейтральное",)
      },
     {"kind": "огромная змея/ящерица", "prevalence": "legendary", "sociality": "solitary",
@@ -520,7 +516,7 @@ BOSSES = (  # Content changed
      "alignment": ("злое",)
      },
     {"kind": "демон", "prevalence": "rare", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "любопытство",),
      "alignment": ("злое",)
      },
     {"kind": "элементаль", "prevalence": "legendary", "sociality": "solitary",
@@ -532,7 +528,7 @@ BOSSES = (  # Content changed
      "alignment": ("злое",)
      },
     {"kind": "могущественный гуманоид (артефакт/сила богов)", "prevalence": "rare", "sociality": "solitary",
-     "disposition": ("агрессия",),
+     "disposition": ("агрессия", "опасения/недоверие", "любопытство",),
      "alignment": ("злое",)
      }
 )
