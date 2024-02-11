@@ -123,6 +123,7 @@ CURRENT_CONDITIONS = (
      },
     {"description": "оккупировано",
      "ruinations": ("естественный катаклизм",
+                    "естественный катаклизм",
                     "нашествие монстров",
                     "война, набеги или междоусобица",)
      },
@@ -135,7 +136,7 @@ CURRENT_CONDITIONS = (
      "ruinations": ("загадочная катастрофа",
                     "проклятие",
                     "естественный катаклизм",
-                    "нашествие монстров",
+                    "эпидемия",
                     "война, набеги или междоусобица",
                     "потеря значения/истощение ресурсов/исход",),
      }
@@ -280,6 +281,11 @@ HUMANOIDS = (
      "disposition": ("агрессия", "опасения/недоверие"),
      "alignment": ("нейтральное", "хаотичное", "злое")
      },
+    {"kind": "жаболюд", "prevalence": "rare", "sociality": "horde",
+     "civilized": False,
+     "disposition": ("агрессия", "опасения/недоверие"),
+     "alignment": ("хаотичное", "злое")
+     },
     {"kind": "кобольд", "prevalence": "uncommon", "sociality": "horde",
      "civilized": False,
      "disposition": ("агрессия", "опасения/недоверие"),
@@ -358,11 +364,35 @@ HUMANOID_HYBRIDS = (  # Content changed
      },
 )
 MONSTERS = (
-    {"kind": "нежить", "prevalence": "uncommon", "sociality": "horde",
+    {"kind": "скелет", "prevalence": "uncommon", "sociality": "horde",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "черный пудинг", "prevalence": "legendary", "sociality": "solitary",
+     "disposition": ("агрессия", "опасения/недоверие"),
+     "alignment": ("хаотичное", "злое")
+     },
+    {"kind": "зомби", "prevalence": "uncommon", "sociality": "horde",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "веревочник", "prevalence": "rare", "sociality": "group",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "анхег", "prevalence": "rare", "sociality": "group",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "душитель", "prevalence": "uncommon", "sociality": "solitary",
      "disposition": ("агрессия",),
      "alignment": ("злое",)
      },
     {"kind": "необычный волк/собака (сила, внешний вид)", "prevalence": "rare", "sociality": "group",
+     "disposition": ("агрессия",),
+     "alignment": ("нейтральное", "злое")
+     },
+    {"kind": "отьюх", "prevalence": "rare", "sociality": "solitary",
      "disposition": ("агрессия",),
      "alignment": ("нейтральное", "злое")
      },
@@ -408,11 +438,35 @@ MONSTERS = (
      },
     {"kind": "гаргулья", "prevalence": "legendary", "sociality": "group",
      "disposition": ("агрессия",),
-     "alignment": ("злое")
+     "alignment": ("злое",)
      },
     {"kind": "виверна", "prevalence": "rare", "sociality": "group",
      "disposition": ("агрессия",),
      "alignment": ("нейтральное", "злое")
+     },
+    {"kind": "бес", "prevalence": "rare", "sociality": "group",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "бехолдер", "prevalence": "legendary", "sociality": "solitary",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "суккуб", "prevalence": "legendary", "sociality": "solitary",
+     "disposition": ("агрессия",),
+     "alignment": ("злое",)
+     },
+    {"kind": "низший вампир", "prevalence": "rare", "sociality": "solitary",
+     "disposition": ("агрессия",),
+     "alignment": ("нейтральное", "хаотичное", "злое")
+     },
+    {"kind": "каменный голем", "prevalence": "legendary", "sociality": "solitary",
+     "disposition": ("агрессия",),
+     "alignment": ("нейтральное",)
+     },
+    {"kind": "циклоп", "prevalence": "legendary", "sociality": "solitary",
+     "disposition": ("агрессия",),
+     "alignment": ("нейтральное",)
      },
 )
 
@@ -480,9 +534,9 @@ BOSSES = (  # Content changed
     {"kind": "могущественный гуманоид (артефакт/сила богов)", "prevalence": "rare", "sociality": "solitary",
      "disposition": ("агрессия",),
      "alignment": ("злое",)
-    }
+     }
 )
-ACTIVITY = ( # TODO
+ACTIVITY = (  # TODO
     # "waiting in ambush",
     # "fighting/squabbling",
     # "prowling/on patrol",
@@ -496,4 +550,3 @@ ACTIVITY = ( # TODO
     # "sleeping",
     # "dying"
 )
-
