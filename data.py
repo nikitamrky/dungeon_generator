@@ -141,7 +141,7 @@ CURRENT_CONDITIONS = (
                     "потеря значения/истощение ресурсов/исход",),
      }
 )
-DISPOSITIONS = (
+DISPOSITIONS = (  # Just to have a list
     "агрессия",
     "опасения/недоверие",
     "любопытство",
@@ -203,20 +203,31 @@ DRESSINGS = (
     {"description": "следы работ или исследований",
      "current_condition": "исследование"},
 )
-# DISCOVERIES_FEATURE = (  TODO: объекты, связать с функцией
-#     "cave-in/collapse",
-#     "pit/shaft/chasm",
-#     "pillars/columns",
-#     "locked door/gate",
-#     "alcoves/niches",
-#     "bridge/stairs/ramp",
+DISCOVERIES_FEATURE = (  # TODO: объекты, связать с функцией
+     {"description": "мистические врата (арка, разрыв в пространстве и т.п.)",
+      "functions": ("портал или источник силы", "храм/сакральное место", "неизвестно")},
+     {"description": "концентраторы/аккумуляторы энергии (камни и т.п.)",
+      "functions": ("портал или источник силы", "храм/сакральное место", "библиотека/лаборатория")},
+     {"description": "место для ритуалов",
+      "functions": ("портал или источник силы", "храм/сакральное место", "неизвестно")},
+     {"description": "место ритуальных приготовлений (купальня, лаборатория и т.п.)",
+      "functions": ("портал или источник силы", "храм/сакральное место")},
+     {"description": "алтарь/часовня",  # TODO
+      "functions": ("портал или источник силы", "храм/сакральное место")},
+     {"description": "статуя/идол/монумент",  # TODO
+      "functions": ("портал или источник силы", "храм/сакральное место")},
+
+#     "частичный обвал",
+#     "яма/разлом",
+#     "альков",
+#     "производственные объекты",
 #     "fountain/well/pool",
 #     "puzzle",
 #     "altar/dais/platform",
 #     "statue/idol",
 #     "magic pool/statue/idol",
 #     # "connection to another dungeon"  # Not for MVP
-# )
+)
 # DISCOVERIES_FIND = ( TODO: связать с функцией, причиной разрушения и текущим состоянием
 #     "trinkets",
 #     "tools",
