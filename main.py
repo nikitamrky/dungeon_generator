@@ -1,5 +1,5 @@
 import data
-from helpers import get_creatures
+from helpers import get_creatures, get_objects
 
 import random
 
@@ -50,7 +50,6 @@ def main():
     # Compose string with creatures descriptions for...
     # ... main creatures
     main_creatures = "- "
-    print()  # Test code
     main_creatures_content = [f"{creature.kind} ({creature.disposition})"
                               for creature in creatures["main_creatures"]]
     main_creatures += "\n- ".join(main_creatures_content)
@@ -66,6 +65,10 @@ def main():
         boss = ("%s (%s)"
                 % (creatures["boss"].kind, creatures["boss"].disposition))
 
+    # Compose string with special objects
+    objects_list = get_objects(function, area_limit)
+    objects = "- " + "\n- ".join(objects_list)
+
     # Construct dungeon description string
     s = ("Dungeon:\n" 
          "Size: %s\n" 
@@ -76,13 +79,14 @@ def main():
          "Current condition: %s\n"
          "Main creatures to meet: \n%s\n"
          "Additional creatures to meet: \n%s\n"
-         "Boss: %s\n"
+         "Boss: %s"
          % (size, area_limit, builder, function, ruination, current_condition,
             main_creatures, additional_creatures, boss)
          )
 
     # Print result
     print(s)
+    print("Возможные объекты:\n" + objects)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@ import data
 
 import random
 
+MIN_AREA_NUM = 5
 
 def roll_d6(n=1) -> int:
     """Roll 1d6 n times and add results"""
@@ -163,3 +164,21 @@ def set_confrontation_creatures(area_limit: int) -> dict:
                  "additional_creatures": additional_creatures,
                  "boss": None}
     return creatures
+
+
+def get_objects(function: str, area_limit: int) -> list:
+    unique_options = []
+    for el in data.OBJECTS:
+        if function in el["functions"]:
+            unique_options.append(el)
+    common_options = []
+    for el in data.OBJECTS:
+        if "universal" in el["functions"] and el not in unique_options:
+            common_options.append(el)
+    n_unique = int(area_limit / 5.5) + 1
+    n_common = int(area_limit / 4)
+    objects_unique = random.sample(unique_options, n_unique)
+    objects_common = random.sample(common_options, n_common)
+    objects = ([unique["description"] for unique in objects_unique]
+               + [common["description"] for common in objects_common])
+    return objects
