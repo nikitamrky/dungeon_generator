@@ -182,3 +182,15 @@ def get_objects(function: str, area_limit: int) -> list:
     objects = ([unique["description"] for unique in objects_unique]
                + [common["description"] for common in objects_common])
     return objects
+
+
+def get_rewards(size: str, builder: str, function: str) -> str:
+    options = []
+    for el in data.REWARDS:
+        if builder in el["builders"] and function in el["functions"]:
+            options.append(el["description"])
+    if size == "small":
+        rewards = random.choice(options)
+    elif size == "large":
+        rewards = ", ".join(random.sample(options, 2))
+    return rewards

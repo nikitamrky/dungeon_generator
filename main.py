@@ -1,5 +1,5 @@
 import data
-from helpers import get_creatures, get_objects
+from helpers import get_creatures, get_objects, get_rewards
 
 import random
 
@@ -69,6 +69,9 @@ def main():
     objects_list = get_objects(function, area_limit)
     objects = "- " + "\n- ".join(objects_list)
 
+    # Compose string with reward(s)
+    rewards = get_rewards(size, builder, function)
+
     # Construct dungeon description string
     s = ("Dungeon:\n" 
          "Size: %s\n" 
@@ -86,6 +89,7 @@ def main():
 
     # Print result
     print(s)
+    print("Награда: %s" % rewards)
     print("Возможные объекты:\n" + objects)
 
 
