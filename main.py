@@ -1,5 +1,5 @@
 import data
-from helpers import get_creatures, get_objects, get_rewards
+from helpers import get_creatures, get_objects, get_rewards, get_traps
 
 import random
 
@@ -72,6 +72,9 @@ def main():
     # Compose string with reward(s)
     rewards = get_rewards(size, builder, function)
 
+    # Compose string with traps
+    traps = get_traps(area_limit, current_condition)
+
     # Construct dungeon description string
     s = ("Dungeon:\n" 
          "Size: %s\n" 
@@ -87,10 +90,14 @@ def main():
             main_creatures, additional_creatures, boss)
          )
 
-    # Print result
     print(s)
-    print("Награда: %s" % rewards)
+    print("Награда(ы): %s" % rewards)
     print("Возможные объекты:\n" + objects)
+
+    # Print traps (if any)
+    if traps:
+        traps_str = "- " + "\n- ".join(traps)
+        print("Ловушки:\n" + traps_str)
 
 
 if __name__ == "__main__":

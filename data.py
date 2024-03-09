@@ -115,6 +115,7 @@ RUINATIONS = (
     "потеря значения/истощение ресурсов/исход"
 )
 CURRENT_CONDITIONS = (
+    # "заселено монстрами", "оккупировано", "противостояние", "исследование",
     {"description": "заселено монстрами",
      "ruinations": ("загадочная катастрофа",
                     "проклятие",
@@ -393,17 +394,6 @@ OBJECTS = (
     {"description": "столы для чтения и/или опытов",
      "functions": ("библиотека/лаборатория",)
      },
-
-
-    #     "яма/разлом",
-    #     "альков",
-    #     "производственные объекты",
-    #     "fountain/well/pool",
-    #     "puzzle",
-    #     "altar/dais/platform",
-    #     "statue/idol",
-    #     "magic pool/statue/idol",
-    #     # "connection to another dungeon"  # Not for MVP
 )
 # DISCOVERIES_FIND = ( TODO: связать с функцией, причиной разрушения и текущим состоянием
 #     "trinkets",
@@ -418,20 +408,49 @@ OBJECTS = (
 #     "magic weapon/armor",
 #     "artifact",
 # )
-# DANGERS_TRAP = (  TODO: связать с текущим состоянием
-#     "alarm",
-#     "ensnaring/paralyzing",
-#     "pit",
-#     "crushing",
-#     "piercing/puncturing",
-#     "chopping/slashing",
-#     "confusing (maze, etc.)",
-#     "gas (poison, etc.)",
-#     "ambush",
-#     "magical",
-# )
-
-
+TRAPS = (
+    {"description": "сигнальная",
+     "conditions": ("оккупировано",
+                    "исследование",)
+     },
+    {"description": "обездвиживающая/парализующая",
+     "conditions": ("оккупировано",
+                    "противостояние",)
+     },
+    {"description": "яма",
+     "conditions": ("оккупировано",
+                    "противостояние",)
+     },
+    {"description": "раздавливающая",
+     "conditions": ("оккупировано",)
+     },
+    {"description": "протыкающая",
+     "conditions": ("оккупировано",
+                    "противостояние",
+                    "исследование",)
+     },
+    {"description": "рубящая/режущая",
+     "conditions": ("оккупировано",
+                    "противостояние",)
+     },
+    {"description": "блокирующая проход",
+     "conditions": ("оккупировано",
+                    "противостояние",)
+     },
+    {"description": "ядовитый газ",
+     "conditions": ("оккупировано",
+                    "противостояние",
+                    "исследование",)
+     },
+    {"description": "магическая (урон)",
+     "conditions": ("оккупировано",
+                    "противостояние",
+                    "исследование",)
+     },
+    {"description": "магическая (не наносит урон)",
+     "conditions": ("оккупировано",)
+     },
+)
 # Creatures you can find
 HUMANOIDS = (
     {"kind": "человек", "prevalence": "common", "sociality": "group",
@@ -489,7 +508,7 @@ HUMANOIDS = (
      "disposition": ("агрессия", "опасения/недоверие"),
      "alignment": ("нейтральное", "хаотичное", "злое")
      },
-    {"kind": "ящеролюди", "prevalence": "uncommon", "sociality": "group",
+    {"kind": "ящеролюди", "prevalence": "uncommon", "sociality": "horde",
      "civilized": False,
      "disposition": ("агрессия", "опасения/недоверие"),
      "alignment": ("нейтральное", "хаотичное", "злое")
@@ -533,7 +552,7 @@ BEASTS = (
      "alignment": ("нейтральное", "злое")
      },
 )
-HUMANOID_HYBRIDS = (  # Content changed
+HUMANOID_HYBRIDS = (
     {"kind": "кентавр", "prevalence": "rare", "sociality": "horde",
      "disposition": ("агрессия", "опасения/недоверие", "любопытство", "надежда"),
      "alignment": ("доброе", "нейтральное", "хаотичное", "злое")

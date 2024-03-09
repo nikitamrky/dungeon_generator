@@ -1,6 +1,7 @@
 import data
 
 import random
+from typing import Any
 
 MIN_AREA_NUM = 5
 
@@ -194,3 +195,19 @@ def get_rewards(size: str, builder: str, function: str) -> str:
     elif size == "large":
         rewards = ", ".join(random.sample(options, 2))
     return rewards
+
+
+def get_traps(area_limit: int, condition: str) -> Any:
+    if condition == "заселено монстрами":
+        return False
+    elif condition == "оккупировано":
+        k = 3
+    elif condition == "противостояние":
+        k = 2.5
+    elif condition == "исследование":
+        k = 4
+
+    traps_num = int(area_limit / k)
+    options = [trap["description"] for trap in data.TRAPS]
+    traps = random.sample(options, traps_num)
+    return traps
