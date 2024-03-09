@@ -24,6 +24,7 @@ class Creature:
         self.disposition = None
 
     def set_disposition(self) -> None:
+        """Define disposition to players' characters"""
         length = len(self.disposition_list)
         probabilities = [2] + [1] * (length - 1)
         self.disposition, = random.choices(self.disposition_list, probabilities)
@@ -37,9 +38,13 @@ class Creature:
 
 
 def get_creatures(area_limit: int, condition: str) -> dict:
+    """Define creatures to meet in dungeon
+    :param area_limit: number of areas in dungeon
+    :param condition: current condition of dungeon
+    """
     creatures = None
     if condition == "заселено монстрами":
-        creatures = set_monster_invasion_creatures(area_limit)
+        creatures = set_monsters_populated_creatures(area_limit)
     elif condition == "исследование":
         creatures = set_exploration_creatures(area_limit)
     elif condition == "оккупировано":
@@ -52,7 +57,7 @@ def get_creatures(area_limit: int, condition: str) -> dict:
     return creatures
 
 
-def set_monster_invasion_creatures(area_limit: int) -> dict:
+def set_monsters_populated_creatures(area_limit: int) -> dict:
     main_creature_num = int(area_limit / 4)
     main_creature_options = [Creature(kind) for kind
                              in data.MONSTERS if kind["prevalence"] in ("uncommon", "rare")]
