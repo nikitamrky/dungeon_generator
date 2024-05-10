@@ -26,6 +26,7 @@ class Creature:
     def set_disposition(self) -> None:
         """Define disposition to players' characters"""
         length = len(self.disposition_list)
+        # Set higher probability for aggressive disposition
         probabilities = [2] + [1] * (length - 1)
         self.disposition, = random.choices(self.disposition_list, probabilities)
 
