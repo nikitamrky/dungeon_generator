@@ -40,8 +40,8 @@ class Creature:
 
 def get_creatures(area_limit: int, condition: str) -> dict:
     """Define creatures to meet in dungeon
-    :param area_limit: number of areas in dungeon
-    :param condition: current condition of dungeon
+       :param area_limit: number of areas in dungeon
+       :param condition: current condition of dungeon
     """
     creatures = None
     if condition == "заселено монстрами":
@@ -217,3 +217,39 @@ def get_traps(area_limit: int, condition: str) -> Any:
     options = [trap["description"] for trap in data.TRAPS]
     traps = random.sample(options, traps_num)
     return traps
+
+
+def get_items(area_limit, function: str, ruination: str) -> dict:
+    """Define items to be found: main and additional.
+       Items with corresponding both function and ruination
+       have higher chance to be chosen.
+    """
+    options_high_chance = [item.description for item
+                           in data.DISCOVERIES_FIND
+                           if function in item["functions"]
+                           and ruination in item["ruinations"]]
+    options_low_chance = [item.description for item
+                          in data.DISCOVERIES_FIND
+                          if function in item["functions"]
+                          or ruination in item["ruinations"]]
+    items = {}
+    items["main"] = choose_main_items(area_limit,
+                                      options_high_chance,
+                                      options_low_chance)
+    items["additional"] = choose_additional_items(area_limit,
+                                                  options_high_chance,
+                                                  options_low_chance)
+
+
+def choose_main_items(area_limit: int,
+                      options_high_chance,
+                      options_low_chance
+                      ) -> list:
+    pass
+
+
+def choose_additional_items(area_limit: int,
+                      options_high_chance,
+                      options_low_chance
+                      ) -> list:
+    pass

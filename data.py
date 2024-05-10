@@ -395,7 +395,7 @@ OBJECTS = (
      "functions": ("библиотека/лаборатория",)
      },
 )
-DISCOVERIES_FIND = (  # TODO: связать с функцией, причиной разрушения и текущим состоянием
+DISCOVERIES_FIND = (  # TODO: связать с текущим состоянием?
     # "trinkets", "tools/gear", "weapon(s)", "armor", "cloth(es)", "supplies/trade goods",
     # "coins/gems/jewellery", "potions/poisons", "magic trinket/tool/jewellery",
     # "scroll/book/map", "magic weapon/armor", "key", "valuable/important item(s)"
