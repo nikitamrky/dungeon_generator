@@ -1,5 +1,9 @@
 import data
-from helpers import get_creatures, get_objects, get_rewards, get_traps
+from helpers import (get_creatures,
+                     get_objects,
+                     get_rewards,
+                     get_traps,
+                     get_items)
 
 import random
 
@@ -65,18 +69,8 @@ def main():
         boss = ("%s (%s)"
                 % (creatures["boss"].kind, creatures["boss"].disposition))
 
-    # Compose string with special objects
-    objects_list = get_objects(function, area_limit)
-    objects = "- " + "\n- ".join(objects_list)
-
-    # Compose string with reward(s)
-    rewards = get_rewards(size, builder, function)
-
-    # Compose string with traps
-    traps = get_traps(area_limit, current_condition)
-
-    # Construct dungeon description string
-    s = ("Dungeon:\n" 
+    # Compose dungeon description string
+    desc_str = ("Dungeon:\n" 
          "Size: %s\n" 
          "Area limit: %i\n" 
          "Built by: %s\n" 
@@ -89,15 +83,30 @@ def main():
          % (size, area_limit, builder, function, ruination, current_condition,
             main_creatures, additional_creatures, boss)
          )
+    print(desc_str)
 
-    print(s)
-    print("Награда(ы): %s" % rewards)
-    print("Возможные объекты:\n" + objects)
-
-    # Print traps (if any)
+    # Compose string with traps (if any)
+    traps = get_traps(area_limit, current_condition)
     if traps:
         traps_str = "- " + "\n- ".join(traps)
         print("Ловушки:\n" + traps_str)
+
+    # Compose findings (items) string
+    # Main items to be given first, additional only if necessary
+    main_items, additional_items = get_items(area_limit, function, ruination).values()
+    items_str = ("Основные предметы:\n- %s\n"
+                 "Дополнительные предметы:\n- %s"
+                 % ("\n- ".join(main_items), "\n- ".join(additional_items)))
+    print(items_str)
+
+    # Compose string with objects to find
+    objects_list = get_objects(function, area_limit)
+    objects = "- " + "\n- ".join(objects_list)
+    print("Возможные объекты:\n" + objects)
+
+    # Compose string with reward(s)
+    rewards = get_rewards(size, builder, function)
+    print("Награда(ы): %s" % rewards)
 
 
 if __name__ == "__main__":

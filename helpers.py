@@ -224,32 +224,39 @@ def get_items(area_limit, function: str, ruination: str) -> dict:
        Items with corresponding both function and ruination
        have higher chance to be chosen.
     """
-    options_high_chance = [item.description for item
+    options_high_chance = [item["description"] for item
                            in data.DISCOVERIES_FIND
                            if function in item["functions"]
                            and ruination in item["ruinations"]]
-    options_low_chance = [item.description for item
+    options_low_chance = [item["description"] for item
                           in data.DISCOVERIES_FIND
                           if function in item["functions"]
                           or ruination in item["ruinations"]]
-    items = {}
-    items["main"] = choose_main_items(area_limit,
-                                      options_high_chance,
-                                      options_low_chance)
-    items["additional"] = choose_additional_items(area_limit,
-                                                  options_high_chance,
-                                                  options_low_chance)
+    items = {"main": choose_main_items(area_limit,
+                                       options_high_chance,
+                                       options_low_chance),
+             "additional": choose_additional_items(area_limit,
+                                                   options_high_chance,
+                                                   options_low_chance)
+             }
+    return items
 
 
 def choose_main_items(area_limit: int,
-                      options_high_chance,
-                      options_low_chance
+                      options_high_chance: list,
+                      options_low_chance: list
                       ) -> list:
-    pass
+    num = round(area_limit * 0.6)
+    options = [options_high_chance, options_low_chance]
+    main_items = random.sample((random.choices(options, [2, 1])[0]), num)
+    return main_items
 
 
 def choose_additional_items(area_limit: int,
-                      options_high_chance,
-                      options_low_chance
-                      ) -> list:
-    pass
+                            options_high_chance,
+                            options_low_chance
+                            ) -> list:
+    num = round(area_limit * 0.7)
+    options = [options_high_chance, options_low_chance]
+    additional_items = random.sample((random.choices(options, [1.2, 1])[0]), num)
+    return additional_items
