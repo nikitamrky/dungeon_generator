@@ -250,7 +250,7 @@ AREA_CONTENT = (
     {"dressing": True, "enemies": False, "traps": True, "object": True, "discoveries": True},
     {"dressing": True, "enemies": True, "traps": False, "object": False, "discoveries": False},
 )
-DRESSINGS = (
+DRESSINGS = ( # Пока не использую
     {"description": "следы монстров или их жизнедеятельности",
      "current_condition": "заселено монстрами"},
     {"description": "следы монстров или их жизнедеятельности",

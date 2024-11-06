@@ -5,6 +5,7 @@ from typing import Any
 
 MIN_AREA_NUM = 5
 
+
 def roll_d6(n=1) -> int:
     """Roll 1d6 n times and add results"""
     result = sum(random.randint(1,6) for _ in range(n))

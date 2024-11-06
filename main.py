@@ -4,6 +4,7 @@ from helpers import (get_creatures,
                      get_rewards,
                      get_traps,
                      get_items)
+from area_generator import generate_areas
 
 import random
 
@@ -13,11 +14,11 @@ def main():
     # Get dungeon size from user
     while True:
         temp = input("Выберите размер подземелья: s (small) или l (large): ")
-        if temp in ("s", "l"):
+        if temp.lower() in ("s", "l"):
             break
 
     # Decode dungeon size:
-    if temp == "s":
+    if temp.lower() == "s":
         size = "small"
         area_limit = random.randint(5, 7)
     else:
@@ -107,6 +108,29 @@ def main():
     # Compose string with reward(s)
     rewards = get_rewards(size, builder, function)
     print("Награда(ы): %s" % rewards)
+
+    # Ask if dungeon fits
+    while True:
+        temp = input("Continue with dungeon generation? (y/n)\n")
+        if temp.lower() in ("y", "n"):
+            break
+
+    if temp.lower() == "n":
+        quit()
+    else:
+        dungeon_data = {"size": size,
+                        "area_limit": area_limit,
+                        "functions": functions,
+                        "builder": builder,
+                        "ruination": ruination,
+                        "current_condition": current_condition,
+                        "creatures": creatures,
+                        "traps": traps,
+                        "main_items": main_items,
+                        "additional_items": additional_items,
+                        "objects_list": objects_list,
+                        "rewards": rewards}
+        areas_data = generate_areas(dungeon_data)
 
 
 if __name__ == "__main__":
