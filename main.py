@@ -4,7 +4,7 @@ from helpers import (get_creatures,
                      get_rewards,
                      get_traps,
                      get_items)
-from area_generator import generate_areas
+from area_generator import Dungeon
 
 import random
 
@@ -118,8 +118,9 @@ def main():
     if temp.lower() == "n":
         quit()
     else:
+
         dungeon_data = {"size": size,
-                        "area_limit": area_limit,
+                        "areas_num": area_limit,
                         "functions": functions,
                         "builder": builder,
                         "ruination": ruination,
@@ -130,7 +131,7 @@ def main():
                         "additional_items": additional_items,
                         "objects_list": objects_list,
                         "rewards": rewards}
-        areas_data = generate_areas(dungeon_data)
+        dungeon = Dungeon(dungeon_data)
 
 
 if __name__ == "__main__":
