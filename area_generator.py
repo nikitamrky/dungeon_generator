@@ -1,4 +1,4 @@
-import data
+from helpers import Creature
 
 import random
 
@@ -10,12 +10,7 @@ class Dungeon:
         self.content = self.set_areas(dungeon_data)
 
     def set_areas(self, dungeon_data: dict) -> list:
-
-        #
-        # traps_num = len(dungeon_data["traps"])
-        # objects_num = len(dungeon_data["objects"])
-        # main_items_num = len(dungeon_data["main_items"])
-
+        # TODO: разбить функцию на части
         # Создаем словарь областей, каждая из которых также является словарем;
         # количество областей на 1 меньше, поскольку область с боссом не участвует в распределении
         # и будет добавлена позднее
@@ -40,9 +35,9 @@ class Dungeon:
 
         # Случайно распределяем additional creatures по кол-ву total - 1 для small и total - 2 для large
         if dungeon_data["size"] == "small":
-            n = -1
+            n = 0  # Потому что для корректной работы range() должно быть +1
         elif dungeon_data["size"] == "large":
-            n = -2
+            n = -1
         additional_creatures_num = len(dungeon_data["creatures"]["additional_creatures"]) + n
         # Для малых подземелий num может быть 0 или даже -1, фиксим:
         if additional_creatures_num <= 0:
@@ -64,23 +59,90 @@ class Dungeon:
 
 
         # Случайно распределяем ловушки
-        traps_num = len(dungeon_data["traps"])
-        target_areas = random.sample(range(1, len(Dungeon.areas)), traps_num)
-        count = 0
-        for i in target_areas:
-            Dungeon.areas[i]["trap"] = dungeon_data["traps"][count]
-        # Тест распределения ловушек
-        print("Traps locations: " + " " + ", ".join(map(str, target_areas)))
-        for num, content in Dungeon.areas.items():
-            if "trap" in content:
-                print(f"{num}: {content['trap']}")
+        # Проверяем, что ловушки есть
+        if dungeon_data["traps"]:
+            traps_num = len(dungeon_data["traps"])
+            target_areas = random.sample(range(1, len(Dungeon.areas) + 1), traps_num)
+            count = 0
+            for i in target_areas:
+                Dungeon.areas[i]["trap"] = dungeon_data["traps"][count]
+            # Тест распределения ловушек
+            print("Traps locations: " + " " + ", ".join(map(str, target_areas)))
+            for num, content in Dungeon.areas.items():
+                if "trap" in content:
+                    print(f"{num}: {content['trap']}")
 
 
         # Случайно распределяем основные предметы
+        main_items_num = len(dungeon_data["main_items"])
+        target_areas = random.sample(range(1, len(Dungeon.areas) + 1), main_items_num)
+        count = 0
+        for i in target_areas:
+            Dungeon.areas[i]["main_item"] = dungeon_data["main_items"][count]
+            count += 1
+        # Тест распределения основных предметов
+        print("Main items locations: " + " " + ", ".join(map(str, target_areas)))
+        for num, content in Dungeon.areas.items():
+            if "main_item" in content:
+                print(f"{num}: {content['main_item']}")
+
+
         # Случайно распределяем объекты кол-ву total - 1 для small и total - 2 для large
-        # Если есть пустые комнаты:
-            # Добавляем в них оставшихся additional creatures, предметы и возможно ловушки
-        # Перемешиваем комнаты случайным образом, чтобы теперь был определенный порядок
+        objects_num = len(dungeon_data["objects_list"])
+        if dungeon_data["size"] == "small":
+            n = 0  # Потому что для корректной работы range() должно быть +1
+        elif dungeon_data["size"] == "large":
+            n = -1
+        target_areas = random.sample(range(1, len(Dungeon.areas) + n), objects_num)
+        count = 0
+        for i in target_areas:
+            Dungeon.areas[i]["object"] = dungeon_data["objects_list"][count]
+            count += 1
+        # Тест распределения объектов
+        print("Objects locations: " + " " + ", ".join(map(str, target_areas)))
+        for num, content in Dungeon.areas.items():
+            if "object" in content:
+                print(f"{num}: {content['object']}")
+
+
+        # Если есть пустые комнаты...
+        if any(not v for v in Dungeon.areas.values()):
+            # ... добавляем в них случайно или additional creature (с конца списка),
+            # или trap, или additional item
+            additional_creatures_count = 0
+            # Для каждого пустого словаря (area)
+            for i in (k for k in Dungeon.areas if not Dungeon.areas[k]):
+                # Проверяем, есть ли в подземелье ловушки:
+                if dungeon_data["traps"]:
+                    r = random.choice((1, 2, 3))
+                else:
+                    r = random.choice((1, 3))
+                if r == 1:
+                    additional_creatures_count += 1
+                    Dungeon.areas[i]["additional_creature"] = (
+                        dungeon_data["creatures"]["additional_creatures"][-additional_creatures_count]
+                    )
+                elif r == 2:
+                    Dungeon.areas[i]["trap"] = (
+                        dungeon_data["traps"][random.choice(range(0, len(dungeon_data["traps"])))]
+                    )
+                else:
+                    Dungeon.areas[i]["additional_item"] = (
+                        dungeon_data["additional_items"][random.choice(range(0, len(dungeon_data["additional_items"])))]
+                    )
+        # Тестируем донаполнение комнат и смотрим всё вместе
+        # TODO: замена объекта Creature на атрибут kind не работает
+        for (k, v) in Dungeon.areas.items():
+            content_list = [item for item in v.values()]
+            # Если в контенте комнаты есть существо - меняем значение с объекта на название вида существа
+            for index in range(len(content_list)):
+                if isinstance(content_list[index], Creature):
+                    content_list[index] = content_list[index].kind
+            # Выводим контент каждой комнаты
+            print(f"#{k}: {[v for v in v.values()]}")
+
+
+        # Перемешиваем комнаты случайным образом (в будущем добавить какой-то принцип?)
         # Добавляем комнату с боссом (не раньше n позиции)
 
 
