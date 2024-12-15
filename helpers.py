@@ -249,6 +249,7 @@ def choose_main_items(area_limit: int,
                       ) -> list:
     num = round(area_limit * 0.6)
     options = [options_high_chance, options_low_chance]
+    # TODO: иногда ловлю баг ValueError: Sample larger than population or is negative
     main_items = random.sample((random.choices(options, [2, 1])[0]), num)
     return main_items
 

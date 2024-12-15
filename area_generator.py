@@ -16,7 +16,7 @@ class Dungeon:
         # и будет добавлена позднее
 
         # Если есть босс - уменьшаем количество областей на 1, чтобы добавить область с боссом позже
-        if dungeon_data["creature"]["boss"]:
+        if dungeon_data["creatures"]["boss"]:
             n = 0  # Потому что range() не включает последний элемент
         else:
             n = 1
@@ -63,7 +63,6 @@ class Dungeon:
             if "additional_creature" in content:
                 print(f"{num}: {content['additional_creature'].kind}")
 
-
         # Случайно распределяем ловушки
         # Проверяем, что ловушки есть
         if dungeon_data["traps"]:
@@ -78,7 +77,6 @@ class Dungeon:
                 if "trap" in content:
                     print(f"{num}: {content['trap']}")
 
-
         # Случайно распределяем основные предметы
         main_items_num = len(dungeon_data["main_items"])
         target_areas = random.sample(range(1, len(Dungeon.areas) + 1), main_items_num)
@@ -91,7 +89,6 @@ class Dungeon:
         for num, content in Dungeon.areas.items():
             if "main_item" in content:
                 print(f"{num}: {content['main_item']}")
-
 
         # Случайно распределяем объекты кол-ву total - 1 для small и total - 2 для large
         objects_num = len(dungeon_data["objects_list"])
@@ -109,7 +106,6 @@ class Dungeon:
         for num, content in Dungeon.areas.items():
             if "object" in content:
                 print(f"{num}: {content['object']}")
-
 
         # Если есть пустые комнаты...
         if any(not v for v in Dungeon.areas.values()):
@@ -149,17 +145,74 @@ class Dungeon:
             counter += 1
 
         # TODO: добавить опцию перемешать порядок комнат кнопкой?
+
         # Если есть босс - добавляем комнату с боссом и наградой (не раньше n позиции)
         # в одну из 25% последних комнат (не более 3-х комнат для рандома)
-        if dungeon_data["creature"]["boss"]:
-            n = len(Dungeon.areas)
-            a = n * 0.25
+        if dungeon_data["creatures"]["boss"]:
+            length = dungeon_data["areas_num"]
+            a = round(length * 0.25)
             if a > 3:
                 a = 3
             r = random.randint(1, a)
-            r_area_index = -r
-            # TODO: сдвинуть все последующие ключи на 1
-            # TODO: добавить новый ключ и комнату с боссом и наградой в качестве значения
+
+            # Сдвигаем все ключи на 1
+            new_area = length + 1 - a
+            last_area = length - 1
+            if new_area == last_area:
+                Dungeon.areas[length] = {
+                    "boss": dungeon_data["creatures"]["boss"],
+                    "rewards": dungeon_data["rewards"],
+                }
+            else:
+                self.insert_boss_area(
+                    last_area,
+                    new_area,
+                    Dungeon.areas,
+                    dungeon_data["creatures"]["boss"],
+                    dungeon_data["rewards"]
+                )
+
+            # Еще раз проверяем наполнение комнат
+            print()
+            counter = 1
+            for (k, v) in Dungeon.areas.items():
+                content_list = [item for item in v.values()]
+                # Если в контенте комнаты есть существо - меняем значение с объекта на название вида существа
+                for index in range(len(content_list)):
+                    if isinstance(content_list[index], Creature):
+                        content_list[index] = content_list[index].kind
+                # Выводим контент каждой комнаты
+                print(f"#{counter}: {content_list}")
+                counter += 1
+
+
+    # Рекурсивный метод для сдвигания номеров областей и вставки области с боссом
+    def insert_boss_area(
+        self,
+        current_area_key: int,
+        new_area_key: int,
+        areas: dict,
+        boss: Creature,
+        rewards: str
+    ) -> None:
+        # Base case
+        if current_area_key == new_area_key:
+            areas[current_area_key + 1] = areas[current_area_key]
+            areas[current_area_key] = {"boss": boss, "rewards": rewards}
+            return
+        # Recursive case
+        areas[current_area_key + 1] = areas[current_area_key]
+        self.insert_boss_area(
+            current_area_key - 1,
+            new_area_key,
+            areas,
+            boss,
+            rewards
+        )
+        return
+
+        # TODO: добавить новый ключ и комнату с боссом и наградой в качестве значения
+
+        # TODO: добавить еще 1 комнату с наградой, если их 2
 
         # Если нет босса - добавляем награду в одну из 25% последних комнат (не более 3-х комнат для рандома)
-
