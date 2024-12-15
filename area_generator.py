@@ -14,7 +14,13 @@ class Dungeon:
         # Создаем словарь областей, каждая из которых также является словарем;
         # количество областей на 1 меньше, поскольку область с боссом не участвует в распределении
         # и будет добавлена позднее
-        Dungeon.areas = {i: dict() for i in range(1, dungeon_data["areas_num"])}
+
+        # Если есть босс - уменьшаем количество областей на 1, чтобы добавить область с боссом позже
+        if dungeon_data["creature"]["boss"]:
+            n = 0  # Потому что range() не включает последний элемент
+        else:
+            n = 1
+        Dungeon.areas = {i: dict() for i in range(1, dungeon_data["areas_num"] + n)}
 
         # Случайно распределяем main creatures по областям без повторений, каких-то creatures должно быть мин. 2
         main_creatures_num = len(dungeon_data["creatures"]["main_creatures"]) + 1  # Заменить +1 на формулу
@@ -131,7 +137,7 @@ class Dungeon:
                         dungeon_data["additional_items"][random.choice(range(0, len(dungeon_data["additional_items"])))]
                     )
         # Тестируем донаполнение комнат и смотрим всё вместе
-        # TODO: замена объекта Creature на атрибут kind не работает
+        counter = 1
         for (k, v) in Dungeon.areas.items():
             content_list = [item for item in v.values()]
             # Если в контенте комнаты есть существо - меняем значение с объекта на название вида существа
@@ -139,10 +145,21 @@ class Dungeon:
                 if isinstance(content_list[index], Creature):
                     content_list[index] = content_list[index].kind
             # Выводим контент каждой комнаты
-            print(f"#{k}: {[v for v in v.values()]}")
+            print(f"#{counter}: {content_list}")
+            counter += 1
 
+        # TODO: добавить опцию перемешать порядок комнат кнопкой?
+        # Если есть босс - добавляем комнату с боссом и наградой (не раньше n позиции)
+        # в одну из 25% последних комнат (не более 3-х комнат для рандома)
+        if dungeon_data["creature"]["boss"]:
+            n = len(Dungeon.areas)
+            a = n * 0.25
+            if a > 3:
+                a = 3
+            r = random.randint(1, a)
+            r_area_index = -r
+            # TODO: сдвинуть все последующие ключи на 1
+            # TODO: добавить новый ключ и комнату с боссом и наградой в качестве значения
 
-        # Перемешиваем комнаты случайным образом (в будущем добавить какой-то принцип?)
-        # Добавляем комнату с боссом (не раньше n позиции)
-
+        # Если нет босса - добавляем награду в одну из 25% последних комнат (не более 3-х комнат для рандома)
 
