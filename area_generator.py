@@ -157,15 +157,15 @@ class Dungeon:
 
             # Сдвигаем все ключи на 1
             new_area = length + 1 - a
-            last_area = length - 1
-            if new_area == last_area:
+            last_but_one_area = length - 1
+            if new_area >= last_but_one_area:
                 Dungeon.areas[length] = {
                     "boss": dungeon_data["creatures"]["boss"],
                     "rewards": dungeon_data["rewards"],
                 }
             else:
                 self.insert_boss_area(
-                    last_area,
+                    last_but_one_area,
                     new_area,
                     Dungeon.areas,
                     dungeon_data["creatures"]["boss"],
