@@ -9,7 +9,7 @@ class Dungeon:
         self.id = 1  # В будущем придумать, как назначать id
         self.content = self.set_areas(dungeon_data)
 
-    def set_areas(self, dungeon_data: dict) -> list:
+    def set_areas(self, dungeon_data: dict) -> None:
         # TODO: разбить функцию на части
         # Создаем словарь областей, каждая из которых также является словарем;
         # количество областей на 1 меньше, поскольку область с боссом не участвует в распределении
@@ -22,46 +22,11 @@ class Dungeon:
             n = 1
         Dungeon.areas = {i: dict() for i in range(1, dungeon_data["areas_num"] + n)}
 
-        # Случайно распределяем main creatures по областям без повторений, каких-то creatures должно быть мин. 2
-        main_creatures_num = len(dungeon_data["creatures"]["main_creatures"]) + 1  # Заменить +1 на формулу
-        target_areas = random.sample(range(1, len(Dungeon.areas) + 1), main_creatures_num)
-        count = 0
-        for i in target_areas:
-            Dungeon.areas[i]["main_creature"] = dungeon_data["creatures"]["main_creatures"][count]
-            # Когда main creatures заканчиваются - идем по списку сначала
-            if count == len(dungeon_data["creatures"]["main_creatures"]) - 1:
-                count = 0
-            else:
-                count += 1
-        # Тест распределения main creatures
-        print("Main creatures locations: " + " " + ", ".join(map(str, target_areas)))
-        for num, content in Dungeon.areas.items():
-            if "main_creature" in content:
-                print(f"{num}: {content['main_creature'].kind}")
+        # Распределяем main creatures по областям
+        self.distribute_main_creatures(dungeon_data)
 
-        # Случайно распределяем additional creatures по кол-ву total - 1 для small и total - 2 для large
-        if dungeon_data["size"] == "small":
-            n = 0  # Потому что для корректной работы range() должно быть +1
-        elif dungeon_data["size"] == "large":
-            n = -1
-        additional_creatures_num = len(dungeon_data["creatures"]["additional_creatures"]) + n
-        # Для малых подземелий num может быть 0 или даже -1, фиксим:
-        if additional_creatures_num <= 0:
-            additional_creatures_num = 1
-        target_areas = random.sample(range(1, len(Dungeon.areas) + n), additional_creatures_num)
-        count = 0
-        for i in target_areas:
-            Dungeon.areas[i]["additional_creature"] = dungeon_data["creatures"]["additional_creatures"][count]
-            # Когда main creatures заканчиваются - идем по списку сначала
-            if count == len(dungeon_data["creatures"]["additional_creatures"]) - 1:
-                count = 0
-            else:
-                count += 1
-        # Тест распределения additional creatures
-        print("Additional creatures locations: " + " " + ", ".join(map(str, target_areas)))
-        for num, content in Dungeon.areas.items():
-            if "additional_creature" in content:
-                print(f"{num}: {content['additional_creature'].kind}")
+        # Распределяем additional creatures по областям
+        self.distribute_additional_creatures(dungeon_data)
 
         # Случайно распределяем ловушки
         # Проверяем, что ловушки есть
@@ -184,6 +149,54 @@ class Dungeon:
                 # Выводим контент каждой комнаты
                 print(f"#{counter}: {content_list}")
                 counter += 1
+
+
+    def distribute_main_creatures(self, dungeon_data: dict) -> None:
+        """Случайно распределяем main creatures по областям без повторений, каких-то должно быть мин. 2
+            :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        main_creatures_num = len(dungeon_data["creatures"]["main_creatures"]) + 1  # Заменить +1 на формулу
+        target_areas = random.sample(range(1, len(self.areas) + 1), main_creatures_num)
+        count = 0
+        for i in target_areas:
+            self.areas[i]["main_creature"] = dungeon_data["creatures"]["main_creatures"][count]
+            # Когда main creatures заканчиваются - идем по списку сначала
+            if count == len(dungeon_data["creatures"]["main_creatures"]) - 1:
+                count = 0
+            else:
+                count += 1
+        # Тест распределения main creatures
+        # print("Main creatures locations: " + " " + ", ".join(map(str, target_areas)))
+        # for num, content in self.areas.items():
+        #     if "main_creature" in content:
+        #         print(f"{num}: {content['main_creature'].kind}")
+
+    def distribute_additional_creatures(self, dungeon_data: dict) -> None:
+        """Случайно распределяем additional creatures по кол-ву total - 1 для small и total - 2 для large
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        if dungeon_data["size"] == "small":
+            n = 0  # Потому что для корректной работы range() должно быть +1
+        elif dungeon_data["size"] == "large":
+            n = -1
+        additional_creatures_num = len(dungeon_data["creatures"]["additional_creatures"]) + n
+        # Для малых подземелий num может быть 0 или даже -1, фиксим:
+        if additional_creatures_num <= 0:
+            additional_creatures_num = 1
+        target_areas = random.sample(range(1, len(Dungeon.areas) + n), additional_creatures_num)
+        count = 0
+        for i in target_areas:
+            Dungeon.areas[i]["additional_creature"] = dungeon_data["creatures"]["additional_creatures"][count]
+            # Когда main creatures заканчиваются - идем по списку сначала
+            if count == len(dungeon_data["creatures"]["additional_creatures"]) - 1:
+                count = 0
+            else:
+                count += 1
+        # Тест распределения additional creatures
+        # print("Additional creatures locations: " + " " + ", ".join(map(str, target_areas)))
+        # for num, content in Dungeon.areas.items():
+        #     if "additional_creature" in content:
+        #         print(f"{num}: {content['additional_creature'].kind}")
 
 
     # Рекурсивный метод для сдвигания номеров областей и вставки области с боссом
