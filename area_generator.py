@@ -28,19 +28,8 @@ class Dungeon:
         # Распределяем additional creatures по областям
         self.distribute_additional_creatures(dungeon_data)
 
-        # Случайно распределяем ловушки
-        # Проверяем, что ловушки есть
-        if dungeon_data["traps"]:
-            traps_num = len(dungeon_data["traps"])
-            target_areas = random.sample(range(1, len(Dungeon.areas) + 1), traps_num)
-            count = 0
-            for i in target_areas:
-                Dungeon.areas[i]["trap"] = dungeon_data["traps"][count]
-            # Тест распределения ловушек
-            print("Traps locations: " + " " + ", ".join(map(str, target_areas)))
-            for num, content in Dungeon.areas.items():
-                if "trap" in content:
-                    print(f"{num}: {content['trap']}")
+        # Распределяем traps по областям
+        self.distribute_traps(dungeon_data)
 
         # Случайно распределяем основные предметы
         main_items_num = len(dungeon_data["main_items"])
@@ -150,7 +139,6 @@ class Dungeon:
                 print(f"#{counter}: {content_list}")
                 counter += 1
 
-
     def distribute_main_creatures(self, dungeon_data: dict) -> None:
         """Случайно распределяем main creatures по областям без повторений, каких-то должно быть мин. 2
             :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
@@ -198,6 +186,20 @@ class Dungeon:
         #     if "additional_creature" in content:
         #         print(f"{num}: {content['additional_creature'].kind}")
 
+    def distribute_traps(self, dungeon_data: dict) -> None:
+        """Случайно распределяем ловушки"""
+        if not dungeon_data["traps"]:
+            return
+        traps_num = len(dungeon_data["traps"])
+        target_areas = random.sample(range(1, len(Dungeon.areas) + 1), traps_num)
+        count = 0
+        for i in target_areas:
+            Dungeon.areas[i]["trap"] = dungeon_data["traps"][count]
+        # Тест распределения ловушек
+        # print("Traps locations: " + " " + ", ".join(map(str, target_areas)))
+        # for num, content in Dungeon.areas.items():
+        #     if "trap" in content:
+        #         print(f"{num}: {content['trap']}")
 
     # Рекурсивный метод для сдвигания номеров областей и вставки области с боссом
     def insert_boss_area(
@@ -222,7 +224,6 @@ class Dungeon:
             boss,
             rewards
         )
-        return
 
         # TODO: добавить новый ключ и комнату с боссом и наградой в качестве значения
 
