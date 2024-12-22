@@ -1,6 +1,7 @@
 from helpers import Creature
 
 import random
+import math
 
 
 class Dungeon:
@@ -32,61 +33,34 @@ class Dungeon:
         self.distribute_traps(dungeon_data)
 
         # Случайно распределяем основные предметы
-        main_items_num = len(dungeon_data["main_items"])
-        target_areas = random.sample(range(1, len(Dungeon.areas) + 1), main_items_num)
-        count = 0
-        for i in target_areas:
-            Dungeon.areas[i]["main_item"] = dungeon_data["main_items"][count]
-            count += 1
-        # Тест распределения основных предметов
-        print("Main items locations: " + " " + ", ".join(map(str, target_areas)))
-        for num, content in Dungeon.areas.items():
-            if "main_item" in content:
-                print(f"{num}: {content['main_item']}")
+        self.distribute_main_items(dungeon_data)
 
         # Случайно распределяем объекты кол-ву total - 1 для small и total - 2 для large
-        objects_num = len(dungeon_data["objects_list"])
-        if dungeon_data["size"] == "small":
-            n = 0  # Потому что для корректной работы range() должно быть +1
-        elif dungeon_data["size"] == "large":
-            n = -1
-        target_areas = random.sample(range(1, len(Dungeon.areas) + n), objects_num)
-        count = 0
-        for i in target_areas:
-            Dungeon.areas[i]["object"] = dungeon_data["objects_list"][count]
-            count += 1
-        # Тест распределения объектов
-        print("Objects locations: " + " " + ", ".join(map(str, target_areas)))
-        for num, content in Dungeon.areas.items():
-            if "object" in content:
-                print(f"{num}: {content['object']}")
+        self.distribute_objects(dungeon_data)
 
-        # Если есть пустые комнаты...
-        if any(not v for v in Dungeon.areas.values()):
-            # ... добавляем в них случайно или additional creature (с конца списка),
-            # или trap, или additional item
-            additional_creatures_count = 0
-            # Для каждого пустого словаря (area)
-            for i in (k for k in Dungeon.areas if not Dungeon.areas[k]):
-                # Проверяем, есть ли в подземелье ловушки:
-                if dungeon_data["traps"]:
-                    r = random.choice((1, 2, 3))
-                else:
-                    r = random.choice((1, 3))
-                if r == 1:
-                    additional_creatures_count += 1
-                    Dungeon.areas[i]["additional_creature"] = (
-                        dungeon_data["creatures"]["additional_creatures"][-additional_creatures_count]
-                    )
-                elif r == 2:
-                    Dungeon.areas[i]["trap"] = (
-                        dungeon_data["traps"][random.choice(range(0, len(dungeon_data["traps"])))]
-                    )
-                else:
-                    Dungeon.areas[i]["additional_item"] = (
-                        dungeon_data["additional_items"][random.choice(range(0, len(dungeon_data["additional_items"])))]
-                    )
-        # Тестируем донаполнение комнат и смотрим всё вместе
+        # Если есть пустые комнаты, добавляем в них или additional creature,
+        # или trap, или additional item
+        self.fill_empty_areas(dungeon_data)
+
+        # # Тестируем донаполнение комнат и смотрим всё вместе
+        # counter = 1
+        # for (k, v) in Dungeon.areas.items():
+        #     content_list = [item for item in v.values()]
+        #     # Если в контенте комнаты есть существо - меняем значение с объекта на название вида существа
+        #     for index in range(len(content_list)):
+        #         if isinstance(content_list[index], Creature):
+        #             content_list[index] = content_list[index].kind
+        #     # Выводим контент каждой комнаты
+        #     print(f"#{counter}: {content_list}")
+        #     counter += 1
+
+        # TODO: добавить опцию перемешать порядок комнат кнопкой?
+
+        # Если есть босс, добавляем комнату с боссом и наградой
+        self.add_boss_area(dungeon_data)
+
+        # Тест - проверяем наполнение комнат
+        print()
         counter = 1
         for (k, v) in Dungeon.areas.items():
             content_list = [item for item in v.values()]
@@ -97,47 +71,6 @@ class Dungeon:
             # Выводим контент каждой комнаты
             print(f"#{counter}: {content_list}")
             counter += 1
-
-        # TODO: добавить опцию перемешать порядок комнат кнопкой?
-
-        # Если есть босс - добавляем комнату с боссом и наградой (не раньше n позиции)
-        # в одну из 25% последних комнат (не более 3-х комнат для рандома)
-        if dungeon_data["creatures"]["boss"]:
-            length = dungeon_data["areas_num"]
-            a = round(length * 0.25)
-            if a > 3:
-                a = 3
-            r = random.randint(1, a)
-
-            # Сдвигаем все ключи на 1
-            new_area = length + 1 - a
-            last_but_one_area = length - 1
-            if new_area >= last_but_one_area:
-                Dungeon.areas[length] = {
-                    "boss": dungeon_data["creatures"]["boss"],
-                    "rewards": dungeon_data["rewards"],
-                }
-            else:
-                self.insert_boss_area(
-                    last_but_one_area,
-                    new_area,
-                    Dungeon.areas,
-                    dungeon_data["creatures"]["boss"],
-                    dungeon_data["rewards"]
-                )
-
-            # Еще раз проверяем наполнение комнат
-            print()
-            counter = 1
-            for (k, v) in Dungeon.areas.items():
-                content_list = [item for item in v.values()]
-                # Если в контенте комнаты есть существо - меняем значение с объекта на название вида существа
-                for index in range(len(content_list)):
-                    if isinstance(content_list[index], Creature):
-                        content_list[index] = content_list[index].kind
-                # Выводим контент каждой комнаты
-                print(f"#{counter}: {content_list}")
-                counter += 1
 
     def distribute_main_creatures(self, dungeon_data: dict) -> None:
         """Случайно распределяем main creatures по областям без повторений, каких-то должно быть мин. 2
@@ -171,10 +104,10 @@ class Dungeon:
         # Для малых подземелий num может быть 0 или даже -1, фиксим:
         if additional_creatures_num <= 0:
             additional_creatures_num = 1
-        target_areas = random.sample(range(1, len(Dungeon.areas) + n), additional_creatures_num)
+        target_areas = random.sample(range(1, len(self.areas) + n), additional_creatures_num)
         count = 0
         for i in target_areas:
-            Dungeon.areas[i]["additional_creature"] = dungeon_data["creatures"]["additional_creatures"][count]
+            self.areas[i]["additional_creature"] = dungeon_data["creatures"]["additional_creatures"][count]
             # Когда main creatures заканчиваются - идем по списку сначала
             if count == len(dungeon_data["creatures"]["additional_creatures"]) - 1:
                 count = 0
@@ -182,26 +115,124 @@ class Dungeon:
                 count += 1
         # Тест распределения additional creatures
         # print("Additional creatures locations: " + " " + ", ".join(map(str, target_areas)))
-        # for num, content in Dungeon.areas.items():
+        # for num, content in self.areas.items():
         #     if "additional_creature" in content:
         #         print(f"{num}: {content['additional_creature'].kind}")
 
     def distribute_traps(self, dungeon_data: dict) -> None:
-        """Случайно распределяем ловушки"""
+        """Случайно распределяем ловушки
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
         if not dungeon_data["traps"]:
             return
         traps_num = len(dungeon_data["traps"])
-        target_areas = random.sample(range(1, len(Dungeon.areas) + 1), traps_num)
+        target_areas = random.sample(range(1, len(self.areas) + 1), traps_num)
         count = 0
         for i in target_areas:
-            Dungeon.areas[i]["trap"] = dungeon_data["traps"][count]
+            self.areas[i]["trap"] = dungeon_data["traps"][count]
         # Тест распределения ловушек
         # print("Traps locations: " + " " + ", ".join(map(str, target_areas)))
-        # for num, content in Dungeon.areas.items():
+        # for num, content in self.areas.items():
         #     if "trap" in content:
         #         print(f"{num}: {content['trap']}")
 
-    # Рекурсивный метод для сдвигания номеров областей и вставки области с боссом
+    def distribute_main_items(self, dungeon_data: dict) -> None:
+        """Случайно распределяем основные предметы
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        main_items_num = len(dungeon_data["main_items"])
+        target_areas = random.sample(range(1, len(self.areas) + 1), main_items_num)
+        count = 0
+        for i in target_areas:
+            self.areas[i]["main_item"] = dungeon_data["main_items"][count]
+            count += 1
+        # Тест распределения основных предметов
+        # print("Main items locations: " + " " + ", ".join(map(str, target_areas)))
+        # for num, content in self.areas.items():
+        #     if "main_item" in content:
+        #         print(f"{num}: {content['main_item']}")
+
+    def distribute_objects(self, dungeon_data: dict) -> None:
+        """Случайно распределяем объекты*
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        objects_num = len(dungeon_data["objects_list"])
+        if dungeon_data["size"] == "small":
+            n = 0  # Потому что для корректной работы range() должно быть +1
+        elif dungeon_data["size"] == "large":
+            n = -1
+        target_areas = random.sample(range(1, len(self.areas) + n), objects_num)
+        count = 0
+        for i in target_areas:
+            self.areas[i]["object"] = dungeon_data["objects_list"][count]
+            count += 1
+        # Тест распределения объектов
+        # print("Objects locations: " + " " + ", ".join(map(str, target_areas)))
+        # for num, content in self.areas.items():
+        #     if "object" in content:
+        #         print(f"{num}: {content['object']}")
+
+    def fill_empty_areas(self, dungeon_data: dict) -> None:
+        """Добавляем в пустые комнаты или additional creature, или trap,
+        или additional item
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        # Если есть пустые комнаты...
+        if any(not v for v in self.areas.values()):
+            # ... добавляем в них случайно или additional creature (с конца списка),
+            # или trap, или additional item
+            additional_creatures_count = 0
+            # Для каждого пустого словаря (area)
+            for i in (k for k in self.areas if not self.areas[k]):
+                # Проверяем, есть ли в подземелье ловушки:
+                if dungeon_data["traps"]:
+                    r = random.choice((1, 2, 3))
+                else:
+                    r = random.choice((1, 3))
+                if r == 1:
+                    additional_creatures_count += 1
+                    self.areas[i]["additional_creature"] = (
+                        dungeon_data["creatures"]["additional_creatures"][-additional_creatures_count]
+                    )
+                elif r == 2:
+                    self.areas[i]["trap"] = (
+                        dungeon_data["traps"][random.choice(range(0, len(dungeon_data["traps"])))]
+                    )
+                else:
+                    self.areas[i]["additional_item"] = (
+                        dungeon_data["additional_items"][random.choice(range(0, len(dungeon_data["additional_items"])))]
+                    )
+
+    def add_boss_area(self, dungeon_data: dict) -> None:
+        """Если есть босс - добавляем комнату с боссом и наградой случайно
+        в одну из последних комнат (33% последних, но не больше 3-х с конца)
+        :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
+        """
+        if not dungeon_data["creatures"]["boss"]:
+            return
+        length = dungeon_data["areas_num"]
+        a = math.floor(length * 0.33 + 0.5)  # Для округления половины до верхнего значения
+        if a > 3:
+            a = 3
+        r = random.randint(1, a)
+
+        # Сдвигаем все ключи на 1
+        new_area = length + 1 - a
+        last_but_one_area = length - 1
+        if new_area >= last_but_one_area:
+            self.areas[length] = {
+                "boss": dungeon_data["creatures"]["boss"],
+                "rewards": dungeon_data["rewards"],
+            }
+        else:
+            self.insert_boss_area(
+                last_but_one_area,
+                new_area,
+                self.areas,
+                dungeon_data["creatures"]["boss"],
+                dungeon_data["rewards"]
+            )
+
     def insert_boss_area(
         self,
         current_area_key: int,
@@ -210,6 +241,13 @@ class Dungeon:
         boss: Creature,
         rewards: str
     ) -> None:
+        """Рекурсивный метод для сдвигания номеров областей и вставки области с боссом
+        :param current_area_key: last but one area ordinal number to work with
+        :param new_area_key: ordinal number of a new area with boss and reward
+        :param areas: dictionary with areas {int: [area content]}, starts with 1
+        :param boss: boss creature object (Creature)
+        :param rewards: reward str
+        """
         # Base case
         if current_area_key == new_area_key:
             areas[current_area_key + 1] = areas[current_area_key]
