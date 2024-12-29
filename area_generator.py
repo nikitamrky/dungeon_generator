@@ -60,7 +60,11 @@ class Dungeon:
         # TODO: добавить опцию перемешать порядок комнат кнопкой?
 
         # Если есть босс, добавляем комнату с боссом и наградой
+        # Если нет, добавляем 1-ю награду
         self.add_boss_area(dungeon_data)
+
+        # Добавляем 2-ю награду, если есть
+        self.add_reward(dungeon_data, 2)
 
         # Тест - проверяем наполнение комнат
         print()
@@ -212,6 +216,8 @@ class Dungeon:
         :param dungeon_data: контент подземелья, сгенерированный функциями из helpers
         """
         if not dungeon_data["creatures"]["boss"]:
+            # Если нет босса, добавляем награду и выходим
+            self.add_reward(dungeon_data, 1)
             return
         length = dungeon_data["areas_num"]
         a = math.floor(length * 0.33 + 0.5)  # Для округления половины до верхнего значения
@@ -254,7 +260,7 @@ class Dungeon:
         # Base case
         if current_area_key == new_area_key:
             areas[current_area_key + 1] = areas[current_area_key]
-            areas[current_area_key] = {"boss": boss, "rewards": rewards}
+            areas[current_area_key] = {"boss": boss, "rewards": rewards[0]}
             return
         # Recursive case
         areas[current_area_key + 1] = areas[current_area_key]
@@ -266,7 +272,29 @@ class Dungeon:
             rewards
         )
 
+    def add_reward(self, dungeon_data: dict, iteration: int) -> None:
+        """
+        Добавляем награду в случайную комнату.
 
-        # TODO: добавить еще 1 комнату с наградой, если их 2
-
-        # TODO: Если нет босса - добавляем награду в одну из 25% последних комнат (не более 3-х комнат для рандома)
+        Для 1-й итерации - в 25% последних комнат (не более 2-х последних).
+        Для 2-й итерации - в одну из двух центральных комнат.
+        :param dungeon_data: Контент подземелья, сгенерированный функциями из helpers
+        :param iteration: Порядковый номер добавляемой награды (с конца подземелья)
+        """
+        length = dungeon_data["areas_num"]
+        if iteration == 1:
+            reward_index = 0  # Индекс в dungeon_data['reward']
+            a = math.floor(length * 0.25 + 0.5)  # Для округления половины до верхнего значения
+            if a > 2:
+                a = 2
+            r = random.randint(1, a)
+            r_key = length + 1 - r
+        elif iteration == 2:
+            if len(dungeon_data["rewards"]) < 2:
+                return
+            reward_index = 1
+            # Выбираем случайно одну из двух центральных комнат
+            # или между центральной и центральной + 1
+            middle_key = math.ceil(length / 2)
+            r_key = random.randint(middle_key, middle_key + 1)
+        self.areas[r_key]["reward"] = dungeon_data["rewards"][reward_index]

@@ -1,6 +1,7 @@
 import data
 
 import random
+import math
 from typing import Any
 
 MIN_AREA_NUM = 5
@@ -192,15 +193,19 @@ def get_objects(function: str, area_limit: int) -> list:
     return objects
 
 
-def get_rewards(size: str, builder: str, function: str) -> str:
+def get_rewards(size: str, builder: str, function: str) -> tuple:
     options = []
     for el in data.REWARDS:
         if builder in el["builders"] and function in el["functions"]:
             options.append(el["description"])
     if size == "small":
-        rewards = random.choice(options)
+        rewards = (random.choice(options),)
     elif size == "large":
-        rewards = ", ".join(random.sample(options, 2))
+        if len(options) == 1:
+            # Если всего 1 подходящая награда (должно быть 2)
+            rewards = (options[0], options[0])
+        else:
+            rewards = tuple(random.sample(options, 2))
     return rewards
 
 
@@ -247,10 +252,13 @@ def choose_main_items(area_limit: int,
                       options_high_chance: list,
                       options_low_chance: list
                       ) -> list:
-    num = round(area_limit * 0.6)
+    num = math.floor((area_limit * 0.6) + 0.5)  # Для округл. к ближ. целому
     options = [options_high_chance, options_low_chance]
-    # TODO: иногда ловлю баг ValueError: Sample larger than population or is negative
-    main_items = random.sample((random.choices(options, [2, 1])[0]), num)
+    r_option = random.choices(options, [2, 1])[0]
+    if num > len(r_option):
+        # Избегаем ошибки 'ValueError: Sample larger than population or is negative'
+        num = len(r_option)
+    main_items = random.sample(r_option, num)
     return main_items
 
 

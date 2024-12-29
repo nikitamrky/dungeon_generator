@@ -23,7 +23,7 @@ def main():
         area_limit = random.randint(5, 7)
     else:
         size = "large"
-        area_limit = random.randint(8, 12)
+        area_limit = random.randint(9, 12)
 
     # Define builder(s)
     builder = random.choice(data.FOUNDATION_BUILDERS)
@@ -107,7 +107,7 @@ def main():
 
     # Compose string with reward(s)
     rewards = get_rewards(size, builder, function)
-    print("Награда(ы): %s" % rewards)
+    print(f"Награда(ы): {tuple(s for s in rewards)}")
 
     # Ask if dungeon fits
     while True:
