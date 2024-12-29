@@ -8,13 +8,16 @@ class Dungeon:
 
     def __init__(self, dungeon_data: dict):
         self.id = 1  # В будущем придумать, как назначать id
-        self.content = self.set_areas(dungeon_data)
+        self.set_areas(dungeon_data)
 
     def set_areas(self, dungeon_data: dict) -> None:
-        # TODO: разбить функцию на части
         # Создаем словарь областей, каждая из которых также является словарем;
         # количество областей на 1 меньше, поскольку область с боссом не участвует в распределении
         # и будет добавлена позднее
+        """
+        Создать dict областей в параметре .areas. Каждая область является dict.
+        :param dungeon_data: Контент подземелья, сгенерированный функциями из helpers.
+        """
 
         # Если есть босс - уменьшаем количество областей на 1, чтобы добавить область с боссом позже
         if dungeon_data["creatures"]["boss"]:
@@ -219,7 +222,7 @@ class Dungeon:
         # Сдвигаем все ключи на 1
         new_area = length + 1 - a
         last_but_one_area = length - 1
-        if new_area >= last_but_one_area:
+        if new_area > last_but_one_area:
             self.areas[length] = {
                 "boss": dungeon_data["creatures"]["boss"],
                 "rewards": dungeon_data["rewards"],
@@ -263,8 +266,7 @@ class Dungeon:
             rewards
         )
 
-        # TODO: добавить новый ключ и комнату с боссом и наградой в качестве значения
 
         # TODO: добавить еще 1 комнату с наградой, если их 2
 
-        # Если нет босса - добавляем награду в одну из 25% последних комнат (не более 3-х комнат для рандома)
+        # TODO: Если нет босса - добавляем награду в одну из 25% последних комнат (не более 3-х комнат для рандома)
