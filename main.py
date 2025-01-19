@@ -19,7 +19,7 @@ async def main():
     await run_bot(token, router)
 
     # TODO: удалить реликтовую функцию и файл temp_logic
-    temp_func()
+    # temp_func()
 
 
 if __name__ == "__main__":

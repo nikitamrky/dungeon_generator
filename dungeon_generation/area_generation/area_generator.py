@@ -1,4 +1,4 @@
-from dungeon_generation.pre_generation import Creature
+from dungeon_generation.pre_generation.pre_generation import Creature
 
 import random
 import math
