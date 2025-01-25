@@ -268,5 +268,10 @@ def choose_additional_items(area_limit: int,
                             ) -> list:
     num = round(area_limit * 0.7)
     options = [options_high_chance, options_low_chance]
-    additional_items = random.sample((random.choices(options, [1.2, 1])[0]), num)
+    # Fix ValueError 'sample larger than population' for sample()
+    population = random.choices(options, [1.2, 1])[0]
+    if num > len(population):
+        return population
+    # Otherwise return sample
+    additional_items = random.sample(population, num)
     return additional_items

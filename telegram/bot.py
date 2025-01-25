@@ -1,9 +1,10 @@
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
 
 
 def setup_bot(token, router):
     bot = Bot(token)
-    dp = Dispatcher()
+    dp = Dispatcher(storage=MemoryStorage())  # TODO: Заменить
     dp.include_router(router)
     return bot, dp
 

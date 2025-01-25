@@ -27,7 +27,7 @@ class Keyboard:
                     callback_data=button.callback_data
                 )
             )
-
+        builder.adjust(1)  # По 1 кнопке в ряд
         return builder.as_markup()
 
 
@@ -37,4 +37,22 @@ choose_size = Keyboard(
      InlineKeyboardButton(text="Большой", callback_data="large")],
     [InlineKeyboardButton(text="Small", callback_data="small"),
      InlineKeyboardButton(text="Large", callback_data="large")],
+)
+
+# Сгенерировать области или попробовать еще раз
+proceed = Keyboard(
+    [InlineKeyboardButton(text="Сгенерировать области", callback_data="proceed"),
+     InlineKeyboardButton(text="Попробовать еще раз", callback_data="retry"),
+     InlineKeyboardButton(text="Назад", callback_data="back")],
+    [InlineKeyboardButton(text="Generate areas", callback_data="proceed"),
+     InlineKeyboardButton(text="Try again", callback_data="retry"),
+     InlineKeyboardButton(text="Back", callback_data="back")],
+)
+
+# Выбор после генерации областей
+confirmation = Keyboard(
+    [InlineKeyboardButton(text="Переделать области", callback_data="retry"),
+     InlineKeyboardButton(text="Назад", callback_data="back")],
+    [InlineKeyboardButton(text="Try other areas", callback_data="proceed"),
+     InlineKeyboardButton(text="Back", callback_data="back")],
 )
