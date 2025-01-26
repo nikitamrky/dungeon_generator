@@ -31,6 +31,15 @@ class Keyboard:
         return builder.as_markup()
 
 
+# Выбор языка
+choose_language = Keyboard(
+    [InlineKeyboardButton(text="Английский", callback_data="english"),
+     InlineKeyboardButton(text="Русский", callback_data="russian")],
+    [InlineKeyboardButton(text="English", callback_data="english"),
+     InlineKeyboardButton(text="Русский", callback_data="russian")],
+)
+
+
 # Выбор размера подземелья
 choose_size = Keyboard(
     [InlineKeyboardButton(text="Малый", callback_data="small"),

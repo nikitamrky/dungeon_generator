@@ -12,6 +12,13 @@ class TextData:
 
 
 # Выбрать размер подземелья
+choose_language = TextData(
+    "Выбери язык",
+    "Choose language"
+)
+
+
+# Выбрать размер подземелья
 choose_size = TextData(
     "Выбери размер подземелья",
     "Choose dungeon size"
