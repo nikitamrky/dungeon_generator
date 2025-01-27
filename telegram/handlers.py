@@ -36,7 +36,8 @@ async def choose_size(callback: types.CallbackQuery, state: FSMContext):
 # Back button -> previous state
 @r.callback_query(F.data == "back")
 async def back_button(callback: types.CallbackQuery, state: FSMContext):
-    if state.get_state() == fsm.GenerateDungeon.proceed_or_retry:
+    current_state = await state.get_state()
+    if current_state in (fsm.GenerateDungeon.proceed_or_retry, fsm.GenerateDungeon.confirmation):
         await callback.message.answer(
             texts.choose_size.get_text_ru(),
             reply_markup=keyboards.choose_size.get_keyboard("ru"),
