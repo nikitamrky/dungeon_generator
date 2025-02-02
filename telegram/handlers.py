@@ -1,6 +1,7 @@
 from telegram import fsm
 from telegram.messages import texts, keyboards
 from dungeon_generation.pre_generation.general_attributes import generate as get_dungeon
+from dungeon_generation.area_generation.area_generator import Dungeon
 
 from aiogram import Router, types, F
 from aiogram.filters import Command, StateFilter
@@ -45,14 +46,19 @@ async def back_button(callback: types.CallbackQuery, state: FSMContext):
         await state.set_state(fsm.GenerateDungeon.choosing_size)
 
 
-# Размер подземелья -> Генерация областей, retry or back
+# Provide dungeon description -> Генерация областей, retry or back
 @r.callback_query(StateFilter(fsm.GenerateDungeon.choosing_size), F.data.in_(("small", "large")))
 async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMContext):
     size = await state.get_value("size")
     if not size:
         await state.update_data(size=callback.data)
         size = callback.data
-    dungeon_description = get_dungeon(size)
+    dungeon = get_dungeon(size)
+    dungeon_description = dungeon[0]
+    dungeon_dict = dungeon[1]
+    # Store dungeon content for future use
+    await state.update_data(dungeon=dungeon_dict)
+
     await callback.message.answer(
         dungeon_description,
         reply_markup=keyboards.proceed.get_keyboard("ru")
@@ -63,8 +69,20 @@ async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMC
 # Generate areas -> Retry or back
 @r.callback_query(fsm.GenerateDungeon.proceed_or_retry, F.data == "proceed")
 async def get_areas(callback: types.CallbackQuery, state: FSMContext):
+    dungeon_dict = await state.get_value("dungeon")
+    dungeon = Dungeon(dungeon_dict)
+    areas = dungeon.get_areas()
+
+    # Создать лист
+    areas_list = []
+    # Проитерировать по словарям, превратив каждую пару k, v в строку, и добавить строку в лист
+    for k, v in areas.items():
+        areas_list.append(f"Area #{k}:\n {v}")
+    
+    text = "\n\n".join(areas_list)
+    
     await callback.message.answer(
-        "Пу-пу-пу, тут будет результат генерации областей",
+        text,
         reply_markup=keyboards.confirmation.get_keyboard("ru")
     )
     await state.set_state(fsm.GenerateDungeon.confirmation)

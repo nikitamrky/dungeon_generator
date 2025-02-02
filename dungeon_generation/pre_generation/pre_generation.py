@@ -44,6 +44,8 @@ def get_creatures(area_limit: int, condition: str) -> dict:
     """Define creatures to meet in dungeon
        :param area_limit: number of areas in dungeon
        :param condition: current condition of dungeon
+       :return: dict[str: (Creature,), str: (Creature,), str: Creature].
+            Dict contains main creatures tuple, additional creatures tuple and boss Creature object.
     """
     creatures = None
     if condition == "заселено монстрами":
