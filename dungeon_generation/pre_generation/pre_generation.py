@@ -22,7 +22,7 @@ class Creature:
     def __init__(self, creature_obj):
         self.kind = creature_obj["kind"]
         self.disposition_list = creature_obj["disposition"]
-        self.alignments = creature_obj["alignment"]
+        self.alignments = creature_obj["alignment"]  # TODO: использовать или удалить
         self.disposition = None
 
     def set_disposition(self) -> None:
