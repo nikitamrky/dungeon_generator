@@ -1,7 +1,9 @@
 from telegram import fsm
 from telegram.messages import texts, keyboards
 from dungeon_generation.pre_generation.general_attributes import generate as get_dungeon
+from dungeon_generation.pre_generation.pre_generation import Creature
 from dungeon_generation.area_generation.area_generator import Dungeon
+from helpers import content_to_str
 
 from aiogram import Router, types, F
 from aiogram.filters import Command, StateFilter
@@ -49,10 +51,11 @@ async def back_button(callback: types.CallbackQuery, state: FSMContext):
 # Provide dungeon description -> Генерация областей, retry or back
 @r.callback_query(StateFilter(fsm.GenerateDungeon.choosing_size), F.data.in_(("small", "large")))
 async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMContext):
-    size = await state.get_value("size")
-    if not size:
+    if callback.data in ("small", "large"):
         await state.update_data(size=callback.data)
         size = callback.data
+    else:
+        size = await state.get_value("size")
     dungeon = get_dungeon(size)
     dungeon_description = dungeon[0]
     dungeon_dict = dungeon[1]
@@ -75,9 +78,13 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
 
     # Создать лист
     areas_list = []
-    # Проитерировать по словарям, превратив каждую пару k, v в строку, и добавить строку в лист
-    for k, v in areas.items():
-        areas_list.append(f"Area #{k}:\n {v}")
+    # Проитерировать по словарям, превратив каждую пару k, v в строку
+    for area_key, area_content in areas.items():
+        for item, value in area_content.items():
+            if isinstance(value, Creature):
+                area_content[item] = value.kind + ", " + value.disposition
+        content = content_to_str(area_content)
+        areas_list.append(f"Area #{area_key}:\n {content}")
     
     text = "\n\n".join(areas_list)
     
@@ -92,3 +99,9 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
 @r.callback_query(fsm.GenerateDungeon.proceed_or_retry, F.data == "retry")
 async def get_description_again(callback: types.CallbackQuery, state: FSMContext):
     await provide_dungeon_description(callback, state)
+
+
+# Generate areas once more -> New areas
+@r.callback_query(fsm.GenerateDungeon.confirmation, F.data == "over_generate")
+async def get_areas_again(callback: types.CallbackQuery, state: FSMContext):
+    await get_areas(callback, state)
