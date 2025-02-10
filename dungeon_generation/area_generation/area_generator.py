@@ -13,7 +13,6 @@ def areas_scheme(dungeon_data: dict) -> dict[int, dict]:
         n = 0  # Потому что range() не включает последний элемент
     else:
         n = 1
-    # TODO: сделать свойством экземпляра!
     areas = {i: dict() for i in range(1, dungeon_data["area_limit"] + n)}
     return areas
 
@@ -187,7 +186,7 @@ class Dungeon:
         r = random.randint(1, a)
 
         # Сдвигаем все ключи на 1
-        new_area = length + 1 - a
+        new_area = length + 1 - r
         last_but_one_area = length - 1
         if new_area > last_but_one_area:
             self.areas[length] = {
