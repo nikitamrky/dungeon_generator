@@ -60,8 +60,8 @@ proceed = Keyboard(
 
 # Выбор после генерации областей
 confirmation = Keyboard(
-    [InlineKeyboardButton(text="Переделать области", callback_data="retry"),
+    [InlineKeyboardButton(text="Переделать области", callback_data="over_generate"),
      InlineKeyboardButton(text="Начать сначала", callback_data="back")],
-    [InlineKeyboardButton(text="Try other areas", callback_data="proceed"),
+    [InlineKeyboardButton(text="Try other areas", callback_data="over_generate"),
      InlineKeyboardButton(text="Start over", callback_data="back")],
 )
