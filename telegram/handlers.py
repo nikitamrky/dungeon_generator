@@ -19,31 +19,31 @@ r = Router()
 @r.message(Command("start"))
 async def choose_language(message: types.Message, state: FSMContext):
     await message.answer(
-        texts.choose_language.get_text_eng(),
+        texts.choose_language.get_text(),
         reply_markup=keyboards.choose_language.get_keyboard()
     )
     await state.set_state(fsm.MainMenu.choosing_language)
 
 
-@r.callback_query(F.data.in_(("english", "russian")))
+@r.callback_query(F.data.in_(("eng", "ru")))
 async def choose_size(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(language=callback.data)
-    # TODO: кэшировать выбранный язык
     await callback.message.answer(
-        texts.choose_size.get_text_ru(),
-        reply_markup=keyboards.choose_size.get_keyboard("ru"),
+        texts.choose_size.get_text(callback.data),
+        reply_markup=keyboards.choose_size.get_keyboard(callback.data),
     )
     await state.set_state(fsm.GenerateDungeon.choosing_size)
 
 
-# Back button -> previous state
+# Back button -> Choose size
 @r.callback_query(F.data == "back")
 async def back_button(callback: types.CallbackQuery, state: FSMContext):
     current_state = await state.get_state()
     if current_state in (fsm.GenerateDungeon.proceed_or_retry, fsm.GenerateDungeon.confirmation):
+        language = await state.get_value("language")
         await callback.message.answer(
-            texts.choose_size.get_text_ru(),
-            reply_markup=keyboards.choose_size.get_keyboard("ru"),
+            texts.choose_size.get_text(language),
+            reply_markup=keyboards.choose_size.get_keyboard(language),
         )
         await state.set_state(fsm.GenerateDungeon.choosing_size)
 
@@ -62,9 +62,10 @@ async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMC
     # Store dungeon content for future use
     await state.update_data(dungeon=dungeon_dict)
 
+    language = await state.get_value("language")
     await callback.message.answer(
         dungeon_description,
-        reply_markup=keyboards.proceed.get_keyboard("ru")
+        reply_markup=keyboards.proceed.get_keyboard(language)
     )
     await state.set_state(fsm.GenerateDungeon.proceed_or_retry)
 
@@ -87,10 +88,11 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
         areas_list.append(f"Area #{area_key}:\n {content}")
     
     text = "\n\n".join(areas_list)
-    
+
+    language = await state.get_value("language")
     await callback.message.answer(
         text,
-        reply_markup=keyboards.confirmation.get_keyboard("ru")
+        reply_markup=keyboards.confirmation.get_keyboard(language)
     )
     await state.set_state(fsm.GenerateDungeon.confirmation)
 

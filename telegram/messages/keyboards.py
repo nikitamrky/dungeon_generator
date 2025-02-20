@@ -33,10 +33,10 @@ class Keyboard:
 
 # Выбор языка
 choose_language = Keyboard(
-    [InlineKeyboardButton(text="Английский", callback_data="english"),
-     InlineKeyboardButton(text="Русский", callback_data="russian")],
-    [InlineKeyboardButton(text="English", callback_data="english"),
-     InlineKeyboardButton(text="Русский", callback_data="russian")],
+    [InlineKeyboardButton(text="Английский", callback_data="eng"),
+     InlineKeyboardButton(text="Русский", callback_data="ru")],
+    [InlineKeyboardButton(text="English", callback_data="eng"),
+     InlineKeyboardButton(text="Русский", callback_data="ru")],
 )
 
 
