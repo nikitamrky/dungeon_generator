@@ -57,7 +57,7 @@ def get_creatures(area_limit: int, condition: str) -> dict:
     elif condition == "противостояние":
         creatures = set_confrontation_creatures(area_limit)
     if not creatures:
-        print("Error: not supported dungeon current condition")  # TODO
+        print("Error: not supported dungeon current condition")
         quit(1)
     return creatures
 
