@@ -7,17 +7,6 @@ from typing import Any
 MIN_AREA_NUM = 5
 
 
-def roll_d6(n=1) -> int:
-    """Roll 1d6 n times and add results"""
-    result = sum(random.randint(1,6) for _ in range(n))
-    return result
-
-
-def roll_d12() -> int:
-    """Roll 1d12"""
-    return random.randint(1,12)
-
-
 class Creature:
     def __init__(self, creature_obj):
         self.kind = creature_obj["kind"]
