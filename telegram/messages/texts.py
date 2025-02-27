@@ -23,3 +23,62 @@ choose_size = TextData(
     "Выбери размер подземелья",
     "Choose dungeon size"
 )
+
+
+# Для формирования описания подземелья
+dungeon_size = TextData(
+    "Размер",
+    "Size"
+)
+dungeon_areas_num = TextData(
+    "Комнат (областей)",
+    "Areas"
+)
+dungeon_builder = TextData(
+    "Кем построено",
+    "Built by"
+)
+dungeon_function = TextData(
+    "Функция",
+    "Function"
+)
+dungeon_ruination = TextData(
+    "Причина упадка",
+    "Ruined by"
+)
+dungeon_condition = TextData(
+    "Текущее состояние",
+    "Current condition"
+)
+dungeon_main_creatures = TextData(
+    "Основные существа",
+    "Main creatures"
+)
+dungeon_additional_creatures = TextData(
+    "Возможные существа",
+    "Optional creatures"
+)
+dungeon_boss = TextData(
+    "Босс",
+    "Boss"
+)
+dungeon_traps = TextData(
+    "Ловушки",
+    "Traps"
+)
+dungeon_main_items = TextData(
+    "Основные находки",
+    "Main findings"
+)
+dungeon_additional_items = TextData(
+    "Дополнительные находки",
+    "Additional findings"
+)
+dungeon_objects = TextData(
+    "Объекты в подземелье",
+    "Objects in dungeon"
+)
+dungeon_rewards = TextData(
+    "Главная награда(ы)",
+    "Big reward(s)"
+)

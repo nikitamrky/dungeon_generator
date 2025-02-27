@@ -56,13 +56,13 @@ async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMC
         size = callback.data
     else:
         size = await state.get_value("size")
-    dungeon = get_dungeon(size)
+    language = await state.get_value("language")
+    dungeon = get_dungeon(size, language)
     dungeon_description = dungeon[0]
     dungeon_dict = dungeon[1]
     # Store dungeon content for future use
     await state.update_data(dungeon=dungeon_dict)
 
-    language = await state.get_value("language")
     await callback.message.answer(
         dungeon_description,
         reply_markup=keyboards.proceed.get_keyboard(language)

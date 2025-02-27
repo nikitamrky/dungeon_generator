@@ -29,39 +29,40 @@ class Creature:
         return False
 
 
-def get_creatures(area_limit: int, condition: str) -> dict:
+def get_creatures(area_limit: int, condition: str, language: str) -> dict:
     """Define creatures to meet in dungeon
        :param area_limit: number of areas in dungeon
        :param condition: current condition of dungeon
+       :param language: Language chosen by user
        :return: dict[str: (Creature,), str: (Creature,), str: Creature].
             Dict contains main creatures tuple, additional creatures tuple and boss Creature object.
     """
     creatures = None
-    if condition == "заселено монстрами":
-        creatures = set_monsters_populated_creatures(area_limit)
-    elif condition == "исследование":
-        creatures = set_exploration_creatures(area_limit)
-    elif condition == "оккупировано":
-        creatures = set_occupied_creatures(area_limit)
-    elif condition == "противостояние":
-        creatures = set_confrontation_creatures(area_limit)
+    if condition in ("заселено монстрами", "inhabited by monsters"):
+        creatures = set_monsters_populated_creatures(area_limit, language)
+    elif condition in ("исследование", "exploration"):
+        creatures = set_exploration_creatures(area_limit, language)
+    elif condition in ("оккупировано", "occupied"):
+        creatures = set_occupied_creatures(area_limit, language)
+    elif condition in ("противостояние", "confrontation"):
+        creatures = set_confrontation_creatures(area_limit, language)
     if not creatures:
         print("Error: not supported dungeon current condition")
         quit(1)
     return creatures
 
 
-def set_monsters_populated_creatures(area_limit: int) -> dict:
+def set_monsters_populated_creatures(area_limit: int, language:str) -> dict:
     main_creature_num = int(area_limit / 4)
     main_creature_options = [Creature(kind) for kind
-                             in data.MONSTERS if kind["prevalence"] in ("uncommon", "rare")]
+                             in data.MONSTERS[language] if kind["prevalence"] in ("uncommon", "rare")]
     main_creatures = random.sample(main_creature_options, k=main_creature_num)
     additional_creature_options_hybrids = [Creature(kind) for kind
-                                           in data.HUMANOID_HYBRIDS]
+                                           in data.HUMANOID_HYBRIDS[language]]
     additional_creature_options_humanoids = [Creature(kind) for kind
-                                             in data.HUMANOIDS if not kind["civilized"]]
+                                             in data.HUMANOIDS[language] if not kind["civilized"]]
     additional_creature_options_monsters = [Creature(kind) for kind
-                                            in data.MONSTERS]
+                                            in data.MONSTERS[language]]
     additional_creature_options = (additional_creature_options_hybrids
                                    + additional_creature_options_humanoids
                                    + additional_creature_options_monsters)
@@ -71,7 +72,7 @@ def set_monsters_populated_creatures(area_limit: int) -> dict:
     if not is_boss:
         boss = None
     else:
-        boss = Creature(random.choice(data.BOSSES))
+        boss = Creature(random.choice(data.BOSSES[language]))
 
     creatures = {"main_creatures": main_creatures,
                  "additional_creatures": additional_creatures,
@@ -79,41 +80,42 @@ def set_monsters_populated_creatures(area_limit: int) -> dict:
     return creatures
 
 
-def set_exploration_creatures(area_limit: int) -> dict:
+def set_exploration_creatures(area_limit: int, language: str) -> dict:
     main_creature_num = int(1 + (area_limit / 5.5))
     main_creature_group = [Creature(kind) for kind
-                           in data.MONSTERS if not kind["sociality"] == "solitary"]
+                           in data.MONSTERS[language] if not kind["sociality"] == "solitary"]
     main_creatures = [random.choice(main_creature_group)]
     main_creature_num -= 1
     if main_creature_num > 0:
         main_creature_options = [Creature(kind) for kind
-                                 in data.MONSTERS]
+                                 in data.MONSTERS[language]]
         main_creature_add = random.sample(main_creature_options,
                                           k=main_creature_num)
         for el in main_creature_add:
             main_creatures.append(el)
     additional_creature_options = [Creature(kind) for kind
-                                   in data.HUMANOIDS if kind["civilized"]]
+                                   in data.HUMANOIDS[language] if kind["civilized"]]
     additional_creature_num = int(area_limit / 3.5)
     additional_creatures = random.sample(additional_creature_options, k=additional_creature_num)
-    boss = Creature(random.choice(data.BOSSES))
+    boss = Creature(random.choice(data.BOSSES[language]))
     creatures = {"main_creatures": main_creatures,
                  "additional_creatures": additional_creatures,
                  "boss": boss}
     return creatures
 
 
-def set_occupied_creatures(area_limit: int) -> dict:
+def set_occupied_creatures(area_limit: int, language: str) -> dict:
     main_creature_options = [Creature(kind) for kind
-                             in data.HUMANOIDS]
+                             in data.HUMANOIDS[language]]
     main_creatures = [random.choice(main_creature_options)]
     additional_creature_beasts = [Creature(kind) for kind
-                                  in data.BEASTS]
+                                  in data.BEASTS[language]]
     additional_creature_uncommon_rare = [Creature(kind) for kind
-                                         in data.MONSTERS if kind["prevalence"] in ("uncommon", "rare")]
+                                         in data.MONSTERS[language] if kind["prevalence"] in ("uncommon", "rare")]
     additional_creature_legendary = random.sample([Creature(kind) for kind
-                                                   in data.MONSTERS if kind["prevalence"] == "legendary"],
-                                                  k=int((len(data.MONSTERS) / 4))  # To have lesser chance of legendary
+                                                   in data.MONSTERS[language] if kind["prevalence"] == "legendary"],
+                                                  # To have lesser chance of legendary
+                                                  k=int((len(data.MONSTERS[language]) / 4))
                                                   )
     additional_creature_options = (additional_creature_beasts
                                    + additional_creature_uncommon_rare
@@ -124,18 +126,18 @@ def set_occupied_creatures(area_limit: int) -> dict:
     if not is_boss:
         boss = None
     else:
-        boss = Creature(random.choice(data.BOSSES))
+        boss = Creature(random.choice(data.BOSSES[language]))
     creatures = {"main_creatures": main_creatures,
                  "additional_creatures": additional_creatures,
                  "boss": boss}
     return creatures
 
 
-def set_confrontation_creatures(area_limit: int) -> dict:
+def set_confrontation_creatures(area_limit: int, language: str) -> dict:
     main_creature_civilized = [Creature(kind) for kind
-                               in data.HUMANOIDS if kind["civilized"]]
+                               in data.HUMANOIDS[language] if kind["civilized"]]
     main_creature_wild = [Creature(kind) for kind
-                          in data.HUMANOIDS if not kind["civilized"]]
+                          in data.HUMANOIDS[language] if not kind["civilized"]]
     # Make it possible to meet 3 main confronting kind of creatures
     main_3_creatures = None
     if area_limit >= 10:
@@ -148,12 +150,13 @@ def set_confrontation_creatures(area_limit: int) -> dict:
     main_creatures = [random.choice(main_creature_civilized),
                       *random.sample(main_creature_wild, k=n)]
     additional_creature_beasts = [Creature(kind) for kind
-                                  in data.BEASTS]
+                                  in data.BEASTS[language]]
     additional_creature_monsters = [Creature(kind) for kind
-                                    in data.MONSTERS if kind["prevalence"] in ("uncommon", "rare")]
+                                    in data.MONSTERS[language] if kind["prevalence"] in ("uncommon", "rare")]
     additional_creature_legendary = random.sample([Creature(kind) for kind
-                                                   in data.MONSTERS if kind["prevalence"] == "legendary"],
-                                                  k=int((len(data.MONSTERS) / 4))  # To have lesser chance of legendary
+                                                   in data.MONSTERS[language] if kind["prevalence"] == "legendary"],
+                                                  # To have lesser chance of legendary
+                                                  k=int((len(data.MONSTERS[language]) / 4))
                                                   )
     additional_creature_options = (additional_creature_beasts
                                    + additional_creature_monsters
@@ -166,13 +169,13 @@ def set_confrontation_creatures(area_limit: int) -> dict:
     return creatures
 
 
-def get_objects(function: str, area_limit: int) -> list:
+def get_objects(function: str, area_limit: int, language: str) -> list:
     unique_options = []
-    for el in data.OBJECTS:
+    for el in data.OBJECTS[language]:
         if function in el["functions"]:
             unique_options.append(el)
     common_options = []
-    for el in data.OBJECTS:
+    for el in data.OBJECTS[language]:
         if "universal" in el["functions"] and el not in unique_options:
             common_options.append(el)
     n_unique = int(area_limit / 5.5) + 1
@@ -184,9 +187,9 @@ def get_objects(function: str, area_limit: int) -> list:
     return objects
 
 
-def get_rewards(size: str, builder: str, function: str) -> tuple:
+def get_rewards(size: str, builder: str, function: str, language: str) -> tuple:
     options = []
-    for el in data.REWARDS:
+    for el in data.REWARDS[language]:
         if builder in el["builders"] and function in el["functions"]:
             options.append(el["description"])
     if size == "small":
@@ -200,33 +203,33 @@ def get_rewards(size: str, builder: str, function: str) -> tuple:
     return rewards
 
 
-def get_traps(area_limit: int, condition: str) -> Any:
-    if condition == "заселено монстрами":
+def get_traps(area_limit: int, condition: str, language: str) -> Any:
+    if condition in ("заселено монстрами", "inhabited by monsters"):
         return False
-    elif condition == "оккупировано":
+    elif condition in ("оккупировано", "occupied"):
         k = 3
-    elif condition == "противостояние":
+    elif condition in ("противостояние", "confrontation"):
         k = 2.5
-    elif condition == "исследование":
+    elif condition in ("исследование", "exploration"):
         k = 4
 
     traps_num = int(area_limit / k)
-    options = [trap["description"] for trap in data.TRAPS]
+    options = [trap["description"] for trap in data.TRAPS[language]]
     traps = random.sample(options, traps_num)
     return traps
 
 
-def get_items(area_limit, function: str, ruination: str) -> dict:
+def get_items(area_limit, function: str, ruination: str, language: str) -> dict:
     """Define items to be found: main and additional.
        Items with corresponding both function and ruination
        have higher chance to be chosen.
     """
     options_high_chance = [item["description"] for item
-                           in data.DISCOVERIES_FIND
+                           in data.DISCOVERIES_FIND[language]
                            if function in item["functions"]
                            and ruination in item["ruinations"]]
     options_low_chance = [item["description"] for item
-                          in data.DISCOVERIES_FIND
+                          in data.DISCOVERIES_FIND[language]
                           if function in item["functions"]
                           or ruination in item["ruinations"]]
     items = {"main": choose_main_items(area_limit,
