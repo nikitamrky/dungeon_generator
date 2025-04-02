@@ -1,7 +1,6 @@
 from settings import get_settings
 from telegram.bot import run_bot
 from telegram.handlers import r as router
-from temp_logic import temp_func
 
 import asyncio
 import logging
