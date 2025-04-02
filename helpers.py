@@ -33,3 +33,13 @@ def size_localize(size: str, language: str) -> str:
     else:
         print("Error: unsupported dungeon size")
         quit(1)
+
+
+def localize_area_header(language: str) -> str:
+    if language == "eng":
+        return "Area"
+    elif language == "ru":
+        return "Область"
+    else:
+        print("Error: unsupported language")
+        quit(1)

@@ -3,7 +3,7 @@ from telegram.messages import texts, keyboards
 from dungeon_generation.pre_generation.general_attributes import generate as get_dungeon
 from dungeon_generation.pre_generation.pre_generation import Creature
 from dungeon_generation.area_generation.area_generator import Dungeon
-from helpers import content_to_str
+from helpers import content_to_str, localize_area_header
 
 from aiogram import Router, types, F
 from aiogram.filters import Command, StateFilter
@@ -73,6 +73,7 @@ async def provide_dungeon_description(callback: types.CallbackQuery, state: FSMC
 # Generate areas -> Retry or back
 @r.callback_query(fsm.GenerateDungeon.proceed_or_retry, F.data == "proceed")
 async def get_areas(callback: types.CallbackQuery, state: FSMContext):
+    language = await state.get_value("language")
     dungeon_dict = await state.get_value("dungeon")
     dungeon = Dungeon(dungeon_dict)
     areas = dungeon.get_areas()
@@ -85,7 +86,8 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
             if isinstance(value, Creature):
                 area_content[item] = value.kind + ", " + value.disposition
         content = content_to_str(area_content)
-        areas_list.append(f"Area #{area_key}:\n {content}")
+        area_header = localize_area_header(language)
+        areas_list.append(f"{area_header} #{area_key}:\n {content}")
     
     text = "\n\n".join(areas_list)
 
