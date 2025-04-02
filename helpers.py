@@ -11,3 +11,25 @@ def content_to_str(content: dict) -> str:
     fu = fu.strip()
 
     return fu
+
+
+def size_localize(size: str, language: str) -> str:
+    if size == "small":
+        if language == "eng":
+            return size
+        elif language == "ru":
+            return "малый"
+        else:
+            print("Error: unsupported language")
+            quit(1)
+    elif size == "large":
+        if language == "eng":
+            return size
+        elif language == "ru":
+            return "большой"
+        else:
+            print("Error: unsupported language")
+            quit(1)
+    else:
+        print("Error: unsupported dungeon size")
+        quit(1)

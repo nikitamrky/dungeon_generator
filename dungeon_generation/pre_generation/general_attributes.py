@@ -5,6 +5,7 @@ from dungeon_generation.pre_generation.pre_generation import (get_creatures,
                                                               get_rewards,
                                                               get_traps,
                                                               get_items)
+from helpers import size_localize
 
 import random
 
@@ -121,7 +122,7 @@ def dungeon_to_str(dungeon_attrs: dict, language: str):
                    "%s\n"  # Предметы
                    f"{texts.dungeon_objects.get_text(language)}:\n%s\n"
                    f"{texts.dungeon_rewards.get_text(language)}: %s"
-                   % (dungeon_attrs["size"],
+                   % (size_localize(dungeon_attrs["size"], language),
                       dungeon_attrs["area_limit"],
                       dungeon_attrs["builder"],
                       dungeon_attrs["function"],
