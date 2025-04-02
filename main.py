@@ -18,9 +18,6 @@ async def main():
     # Запустить приложение
     await run_bot(token, router)
 
-    # TODO: удалить реликтовую функцию и файл temp_logic
-    # temp_func()
-
 
 if __name__ == "__main__":
     asyncio.run(main())
