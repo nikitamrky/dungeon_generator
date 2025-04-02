@@ -87,7 +87,7 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
                 area_content[item] = value.kind + ", " + value.disposition
         content = content_to_str(area_content)
         area_header = localize_area_header(language)
-        areas_list.append(f"{area_header} #{area_key}:\n {content}")
+        areas_list.append(f"{area_header} #{area_key}:\n{content}")
     
     text = "\n\n".join(areas_list)
 
