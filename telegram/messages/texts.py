@@ -82,3 +82,46 @@ dungeon_rewards = TextData(
     "Главная награда(ы)",
     "Big reward(s)"
 )
+
+
+# Для формирования контента областей
+def localize_area_key(key: str, language: str) -> str:
+    if key in ("main_creature", "additional_creature"):
+        return area_creature.get_text(language)
+    if key == "boss":
+        return area_boss.get_text(language)
+    if key == "trap":
+        return area_trap.get_text(language)
+    if key in ("main_item", "additional_item"):
+        return area_item.get_text(language)
+    if key == "object":
+        return area_object.get_text(language)
+    if key == "reward":
+        return area_reward.get_text(language)
+
+
+area_creature = TextData(
+    "👤 cущество",
+    "👤 creature"
+)
+area_boss = TextData(
+    "🦹 босс",
+    "🦹 boss"
+)
+area_trap = TextData(
+    "🪤 ловушка",
+    "🪤 trap"
+)
+area_item = TextData(
+    "🧤 находка",
+    "🧤 finding"
+)
+area_object = TextData(
+    "🧱 объект",
+    "🧱 object"
+)
+area_reward = TextData(
+    "👑 Главная награда(ы)",
+    "👑 Big reward(s)"
+)
+

@@ -85,7 +85,7 @@ async def get_areas(callback: types.CallbackQuery, state: FSMContext):
         for item, value in area_content.items():
             if isinstance(value, Creature):
                 area_content[item] = value.kind + ", " + value.disposition
-        content = content_to_str(area_content)
+        content = content_to_str(area_content, language)
         area_header = localize_area_header(language)
         areas_list.append(f"{area_header} #{area_key}:\n{content}")
     

@@ -1,12 +1,16 @@
-def content_to_str(content: dict) -> str:
+from telegram.messages.texts import localize_area_key
+
+
+def content_to_str(content: dict, language: str) -> str:
     """
     Converts area content to a string.
     :param content: dict with content of a single area
+    :param language: language of user's choice
     :return: formatted string
     """
     fu = ""
     for key, value in content.items():
-        foo = f"- {key}: {value}\n"
+        foo = f"- {localize_area_key(key, language)}: {value}\n"
         fu += foo
     fu = fu.strip()
 
